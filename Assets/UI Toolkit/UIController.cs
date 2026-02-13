@@ -140,7 +140,8 @@ public class UIController : MonoBehaviour
     private void OpenExportWindow()
     {
         VisualElement ExportSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ExportSceneWindow");
-        ExportSceneWindow.visible = true;
+        ExportSceneWindow.visible = !ExportSceneWindow.visible;
+        CloseImportWindow();
     }
 
     private void CloseExportWindow()
@@ -152,8 +153,9 @@ public class UIController : MonoBehaviour
     private void OpenImportWindow()
     {
         VisualElement ImportSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ImportSceneWindow");
-        ImportSceneWindow.visible = true;
+        ImportSceneWindow.visible = !ImportSceneWindow.visible;
         RefreshImportFiles();
+        CloseExportWindow();
     }
 
     private void RefreshImportFiles()
