@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Styles.uss?fileID=7433441132597879392&amp;guid=47cf3824f96def04ebc5ce2829239e3d&amp;type=3#Styles"/>
     <ui:VisualElement name="ToolbarUI" style="flex-direction: row; width: 100%; height: 10%; background-color: rgba(0, 0, 0, 0.39); align-items: center; position: absolute; top: -1px; right: 0; left: 0; bottom: auto; justify-content: space-between;">
-        <ui:VisualElement name="RightUI" style="flex-grow: 0; flex-direction: row;">
+        <ui:VisualElement name="LeftUI" style="flex-grow: 0; flex-direction: row;">
             <ui:VisualElement name="Dropdownfields" style="flex-grow: 0;">
                 <ui:DropdownField label="Lego selected" name="LegoSelector" style="font-size: 20px; flex-direction: row; min-width: 300px; margin-left: 4px; margin-top: 2px; margin-bottom: 5px;"/>
                 <ui:DropdownField label="Color selected" name="ColorSelector" style="font-size: 20px; width: auto; height: auto; min-width: 350px; margin-right: 4px; margin-bottom: 2px; margin-top: 5px;"/>
@@ -12,7 +12,7 @@
             </ui:VisualElement>
             <ui:Button text="Paint Mode" name="ColorSwitchButton" class="button" style="background-color: rgb(220, 49, 50); transition-duration: 0.1s; margin-right: 4px; margin-left: 20px; padding-left: 0; padding-top: 10px; padding-right: 0; padding-bottom: 10px; align-self: center; width: 80px; margin-top: 2px;"/>
         </ui:VisualElement>
-        <ui:VisualElement name="LeftUI" style="flex-grow: 0; flex-direction: row; align-self: center;">
+        <ui:VisualElement name="RightUI" style="flex-grow: 0; flex-direction: row; align-self: center;">
             <ui:VisualElement name="ImportExportButton" style="flex-grow: 1; background-size: 100% 100%; min-width: 120px;">
                 <ui:Button text="Import" name="ImportButton" class="button" style="margin-left: 4px;"/>
                 <ui:Button text="Export&#10;" name="ExportButton" class="button" style="margin-right: 4px; margin-left: 4px;"/>
