@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 50f825416c6c5464f923c8763e6e4809
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - DefaultLegoMaterial: {instanceID: 0}
+  - ActualLegoMaterial: {instanceID: 0}
+  - HoveringLegoMaterial: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
