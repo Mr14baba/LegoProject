@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -109,7 +110,7 @@ public class UIController : MonoBehaviour
     }
     private string SerializeLego()
     {
-        //Serialization of the lego pieces
+        //Serialization of the lego pieces for exportation
         SerializableLegoList = new();
         foreach(LegoEnum key in GameManager.Instance.dictTypeOfLegoPlaced.Keys)
         {
@@ -123,7 +124,7 @@ public class UIController : MonoBehaviour
                         position = legoToSerialize.transform.position,
                         rotation = legoToSerialize.transform.rotation,
                         color = legoToSerialize.GetComponent<LegoBlock>().ActualLegoMaterial.color,
-                        legoEnum = legoToSerialize.GetComponent<LegoBlock>().EnumLego,
+                        //prefabName = legoToSerialize.GetComponent<MeshFilter>().sharedMesh.name,
                         parent = legoToSerialize.transform.parent?.parent.name + "|" + legoToSerialize.transform.parent?.name
                     };
                     SerializableLegoList.list.Add(legoData);

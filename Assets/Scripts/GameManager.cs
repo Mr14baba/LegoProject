@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -26,12 +27,14 @@ public class GameManager : MonoBehaviour
     }
     public void AddNewLego(GameObject newLego, bool addNumbering = true)
     {
+        //Rename Lego
         newLego.name = newLego.name.Replace("(Clone)", "");
         if (!dictTypeOfLegoPlaced.ContainsKey(newLego.GetComponent<LegoBlock>().EnumLego))
         {
             dictTypeOfLegoPlaced.Add(newLego.GetComponent<LegoBlock>().EnumLego, new List<GameObject>());
         }
 
+        //Add Lego to list of lego placed
         List<GameObject> currentLegoList = dictTypeOfLegoPlaced[newLego.GetComponent<LegoBlock>().EnumLego];
 
         
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //get lego from the current lego list and removes it from list and scene
     public void RemoveLego(GameObject legoToRemove)
     {
         List<GameObject> currentLegoList = dictTypeOfLegoPlaced[legoToRemove.GetComponent<LegoBlock>().EnumLego];
@@ -88,6 +92,10 @@ public class GameManager : MonoBehaviour
             newLego.transform.rotation = legoData.rotation;
             newLego.GetComponent<Renderer>().material.color = legoData.color;
             newLego.GetComponent<Collider>().enabled = true;
+            for(int i = 0; i < newLego.transform.childCount; i++)
+            {
+                newLego.transform.GetChild(i).GetComponent<Collider>().enabled = true;
+            }
             AddNewLego(newLego, false);
             if (legoData.parent != "|")
             {

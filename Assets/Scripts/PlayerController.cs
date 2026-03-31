@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isCorrectSurface)
             {
+                //select method to place lego on surface
                 switch (mouseCast.collider.gameObject.layer)
                 {
                     case 3:
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+        //Place lego if it is placable, else destroys it
         if (isPlacable && !controls.Player.RemovePiece.IsPressed())
         {
             if (parentLego != null)

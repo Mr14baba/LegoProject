@@ -22,6 +22,7 @@ public class LegoData
     public Quaternion rotation;
     public Color color;
     public LegoEnum legoEnum;
+    //public string prefabName;
     public string parent;
 }
 
