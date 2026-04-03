@@ -124,6 +124,7 @@ public class UIController : MonoBehaviour
                         position = legoToSerialize.transform.position,
                         rotation = legoToSerialize.transform.rotation,
                         color = legoToSerialize.GetComponent<LegoBlock>().ActualLegoMaterial.color,
+                        legoEnum = legoToSerialize.GetComponent<LegoBlock>().EnumLego,
                         //prefabName = legoToSerialize.GetComponent<MeshFilter>().sharedMesh.name,
                         parent = legoToSerialize.transform.parent?.parent.name + "|" + legoToSerialize.transform.parent?.name
                     };

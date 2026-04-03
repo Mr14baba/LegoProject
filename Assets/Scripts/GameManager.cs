@@ -71,13 +71,13 @@ public class GameManager : MonoBehaviour
     {
         Dictionary<GameObject, string> GoToParent = new();
         //Scene cleanup
-        /*foreach(LegoEnum key in dictTypeOfLegoPlaced.Keys)
+        foreach(LegoEnum key in dictTypeOfLegoPlaced.Keys)
         {
             foreach(GameObject legoToRemove in dictTypeOfLegoPlaced[key])
             {
                 Destroy(legoToRemove);
             }
-        }*/
+        }
 
         yield return new WaitForEndOfFrame();        
         
