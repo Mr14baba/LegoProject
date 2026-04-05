@@ -565,18 +565,6 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5402412855941219256}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7132788014396874253}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8611158760975348976}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1749732167699197075}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2724380407678938141}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
       insertIndex: -1
@@ -587,6 +575,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 774850085719629316}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5402412855941219256}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7132788014396874253}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8611158760975348976}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1749732167699197075}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c8d1e8f8749c29d499ffd45d1b1fecbc, type: 3}
       insertIndex: -1
