@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -49,6 +48,7 @@ public class UIController : MonoBehaviour
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
 
         colorSelectorDropDownField.RegisterValueChangedCallback(evt => OnColorSwitched(evt.newValue));
+        colorSelectorDropDownField.RegisterCallback<MouseMoveEvent>(evt => OnColorHovered());
         
         legoSelectorDropDownField.RegisterValueChangedCallback(evt => OnLegoSelected(legoSelectorDropDownField.index));
 
@@ -80,6 +80,11 @@ public class UIController : MonoBehaviour
         PaintModeModified();
     }
 
+    private void OnColorHovered()
+    {
+
+        Debug.Log("test");
+    }
     private void OnColorSwitched(string colorName)
     {
         Image colorPreviewImage = uiDocument.rootVisualElement.Q<Image>("ImageColorPreview");
@@ -185,13 +190,13 @@ public class UIController : MonoBehaviour
 
     private void OnTextFieldFocusGained()
     {
-        PlayerController playerController = FindFirstObjectByType<PlayerController>();
+        PlayerController playerController = FindAnyObjectByType<PlayerController>();
         playerController.controls.Disable();
     }
 
     private void OnTextFieldFocusLost()
     {
-        PlayerController playerController = FindFirstObjectByType<PlayerController>();
+        PlayerController playerController = FindAnyObjectByType<PlayerController>();
         playerController.controls.Enable();
     }
 
