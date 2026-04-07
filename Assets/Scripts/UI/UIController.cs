@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private UIDocument uiDocument;
+    [SerializeField] private ColorAvailable colors;
     [SerializeField] private SerializableList<LegoData> SerializableLegoList;
     private Dictionary<string, Color> predefinedColorList = new Dictionary<string, Color>();
     private string fileToLoad;
@@ -30,6 +31,14 @@ public class UIController : MonoBehaviour
         ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("ListTest");
 
         DropdownField colorSelectorDropDownField = uiDocument.rootVisualElement.Q<DropdownField>("ColorSelector");
+        DropdownWithImage colorSelector = uiDocument.rootVisualElement.Q<DropdownWithImage>("ColorSelector");
+
+        foreach(var item in colors.items)
+        {
+            colorSelector.AddItem(new DropdownWithImage.Item{ Label = item.label, Icon = item.icon});
+        }
+
+        colorSelector.RegisterValueChangedCallback(evt => Debug.Log($"Sélection : {evt.newValue}"));
 
         DropdownField legoSelectorDropDownField = uiDocument.rootVisualElement.Q<DropdownField>("LegoSelector");
 
