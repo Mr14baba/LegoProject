@@ -282,7 +282,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!controls.Player.PlacePiece.IsPressed())
         {
-            UIController uiController = FindFirstObjectByType<UIController>();
+            UIController uiController = FindAnyObjectByType<UIController>();
             uiController.OnLegoSelected(Mathf.Clamp((int)GameManager.Instance.legoSelected + (int)SwitchAxis, 0, GameManager.Instance.usableLegoList.Count() - 1));
         }
     }
@@ -316,7 +316,7 @@ public class PlayerController : MonoBehaviour
     private void enablePaintMode()
     {
         GameManager.Instance.paintModeEnabled = !GameManager.Instance.paintModeEnabled;
-        UIController uiController = FindFirstObjectByType<UIController>();
+        UIController uiController = FindAnyObjectByType<UIController>();
         uiController.PaintModeModified();
         //Debug.Log(GameManager.Instance.paintModeEnabled);
     }
