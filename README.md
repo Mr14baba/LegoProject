@@ -3,7 +3,7 @@
 ### Installation
 Sélectionnez la branche de la version que vous voulez puis copiez-la.
 
-Ajoutez le projet sur **Unity Hub** et ouvrez-le avec la version **6000.4.1f1** de Unity.
+Ajoutez le projet sur **Unity Hub** et ouvrez-le avec la version **6000.4.1f1**.
 
 Allez dans le dossier **Scenes**, et ouvrez la scène **SampleScene**.
 
