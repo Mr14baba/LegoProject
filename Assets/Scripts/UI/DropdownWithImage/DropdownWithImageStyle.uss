@@ -8,6 +8,14 @@
     align-items: center;
     padding-left: 6px;
     padding-right: 6px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.image-dropdown-field:hover .unity-base-field__input:hover {
+    background-color: rgb(189, 189, 189);
 }
 
 /* Icone de selection principale */
@@ -56,10 +64,11 @@
 .image-dropdown-field__popup-icon {
     width: 64px;
     height: 64px;
-    margin-right: 8px;
+    margin-right: 6px;
 }
 
 .image-dropdown-field__popup-label {
+    flex-grow: 1;
     font-size: 20px;
 }
 

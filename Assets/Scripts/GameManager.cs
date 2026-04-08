@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set;}
     public Material addHoveringMaterial;
     public Material removeHoveringMaterial;
-    public GameObject[] usableLegoList;    
+    public GameObject[] usableLegoList;
     private void Awake()
     {
         if (Instance != null && Instance != this)

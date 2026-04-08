@@ -14,8 +14,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColorAvailable
   items:
   - label: Red
-    icon: {fileID: 4584671053970592468, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 1, g: 0, b: 0, a: 0}
+  - label: Brown
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 0.5849056, g: 0.24371693, b: 0, a: 0}
+  - label: Orange
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 1, g: 0.55638766, b: 0, a: 0}
+  - label: Yellow
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 1, g: 1, b: 0, a: 0}
   - label: Green
-    icon: {fileID: 3506167780502562645, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 0, g: 1, b: 0, a: 0}
+  - label: Black
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 0, g: 1, b: 1, a: 0}
   - label: Blue
     icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 0, g: 0, b: 1, a: 0}
+  - label: Purple
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 0.5686275, g: 0, b: 1, a: 0}
+  - label: Pink
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 1, g: 0.57254905, b: 0.8156863, a: 0}
+  - label: Black
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 0, g: 0, b: 0, a: 0}
+  - label: Gray
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
+  - label: White
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    color: {r: 1, g: 1, b: 1, a: 0}

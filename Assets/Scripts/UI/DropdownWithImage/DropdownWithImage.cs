@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 [UxmlElement]
-public partial class DropdownWithImage : BaseField<string>
+public partial class DropdownWithImage : BaseField<int>
 {
 
     [UxmlAttribute]
@@ -12,9 +13,9 @@ public partial class DropdownWithImage : BaseField<string>
     {
         public string Label;
         public Texture2D Icon;
+        public Color color;
     }
-
-    private List<Item> items = new();
+    public List<Item> items = new();
     private VisualElement popup;
     private Image selectedIcon;
     private Label selectedLabel;
@@ -27,7 +28,6 @@ public partial class DropdownWithImage : BaseField<string>
     {
         AddToClassList("image-dropdown-field");
 
-        // --- Zone d'affichage de la valeur sélectionnée ---
         var display = this.Q<VisualElement>(className: "unity-base-field__input");
 
         selectedIcon = new Image();
@@ -36,29 +36,31 @@ public partial class DropdownWithImage : BaseField<string>
         selectedLabel = new Label("Select...");
         selectedLabel.AddToClassList("image-dropdown-field__selected-label");
 
-        display.Add(selectedIcon);
         display.Add(selectedLabel);
+        display.Add(selectedIcon);
 
-        display.RegisterCallback<ClickEvent>(_ => TogglePopup());
+        display.RegisterCallback<ClickEvent>(evt => TogglePopup());
 
-        // --- Popup ---
         popup = new VisualElement();
         popup.AddToClassList("image-dropdown-field__popup");
 
-        RegisterCallback<AttachToPanelEvent>(evt => 
-        {
-            panel.visualTree.RegisterCallback<PointerDownEvent>(OnPointerDownOutside, TrickleDown.TrickleDown); 
-        });
+        RegisterCallback<AttachToPanelEvent>(evt => panel.visualTree.RegisterCallback<PointerDownEvent>(OnPointerDownOutside, TrickleDown.TrickleDown));
         RegisterCallback<DetachFromPanelEvent>(evt => panel?.visualTree.UnregisterCallback<PointerDownEvent>(OnPointerDownOutside, TrickleDown.TrickleDown));
     }
 
-    // --- API publique ---
     public void AddItem(Item item)
     {
         items.Add(item);
     }
 
-    // --- Logique du popup ---
+    public void SelectItem(Item item)
+    {
+        value = items.IndexOf(item);
+        selectedLabel.text = item.Label;
+        selectedIcon.image = item.Icon;
+        ClosePopup();
+    }
+
     private void TogglePopup()
     {
         if (isOpen) 
@@ -78,29 +80,28 @@ public partial class DropdownWithImage : BaseField<string>
 
         foreach (var item in items)
         {
-            var row = new VisualElement();
-            //row.styleSheets.Add(styleSheets[0]);
+            VisualElement row = new VisualElement();
             row.AddToClassList("image-dropdown-field__popup-row");
 
-            var icon = new Image();
+            Image icon = new Image();
             icon.AddToClassList("image-dropdown-field__popup-icon");
             if (item.Icon != null) icon.image = item.Icon;
 
-            var lbl = new Label(item.Label);
+            Label lbl = new Label(item.Label);
             lbl.AddToClassList("image-dropdown-field__popup-label");
 
-            row.Add(icon);
             row.Add(lbl);
+            row.Add(icon);
 
-            var captured = item;
-            row.RegisterCallback<ClickEvent>(_ => SelectItem(captured));
+            Item captured = item;
+            row.RegisterCallback<ClickEvent>(evt => SelectItem(captured));
 
             popup.Add(row);
         }
 
         Add(popup);
 
-        var display = this.Q<VisualElement>(className: "unity-base-field__input");
+        VisualElement display = this.Q<VisualElement>(className: "unity-base-field__input");
 
         popup.style.top = display.layout.yMax;
         popup.style.left = display.layout.xMin;
@@ -114,15 +115,6 @@ public partial class DropdownWithImage : BaseField<string>
         popup.style.visibility = Visibility.Hidden;
         isOpen = false;
     }
-
-    private void SelectItem(Item item)
-    {
-        value = item.Label;
-        selectedLabel.text = item.Label;
-        selectedIcon.image = item.Icon;
-        ClosePopup();
-    }
-
     private void OnPointerDownOutside(PointerDownEvent evt)
     {
         if (isOpen && !this.worldBound.Contains(evt.position) && !popup.worldBound.Contains(evt.position))

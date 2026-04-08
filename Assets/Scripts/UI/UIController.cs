@@ -12,7 +12,6 @@ public class UIController : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private ColorAvailable colors;
     [SerializeField] private SerializableList<LegoData> SerializableLegoList;
-    private Dictionary<string, Color> predefinedColorList = new Dictionary<string, Color>();
     private string fileToLoad;
     List<string> itemList = new();
     private readonly string sceneFolderPath  = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LegoScenes";
@@ -30,15 +29,16 @@ public class UIController : MonoBehaviour
         Button importWindowCancelButton = uiDocument.rootVisualElement.Q<Button>("ImportCancelButton");
         ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("ListTest");
 
-        DropdownField colorSelectorDropDownField = uiDocument.rootVisualElement.Q<DropdownField>("ColorSelector");
+        //DropdownField colorSelectorDropDownField = uiDocument.rootVisualElement.Q<DropdownField>("ColorSelector");
         DropdownWithImage colorSelector = uiDocument.rootVisualElement.Q<DropdownWithImage>("ColorSelector");
 
         foreach(var item in colors.items)
         {
-            colorSelector.AddItem(new DropdownWithImage.Item{ Label = item.label, Icon = item.icon});
+            colorSelector.AddItem(new DropdownWithImage.Item{ Label = item.label, Icon = item.icon, color = item.color});
         }
-
-        colorSelector.RegisterValueChangedCallback(evt => Debug.Log($"Sélection : {evt.newValue}"));
+        colorSelector.SelectItem(colorSelector.items[0]);
+        
+        colorSelector.RegisterValueChangedCallback(evt => OnColorSwitched(evt.newValue));
 
         DropdownField legoSelectorDropDownField = uiDocument.rootVisualElement.Q<DropdownField>("LegoSelector");
 
@@ -55,21 +55,8 @@ public class UIController : MonoBehaviour
         importWindowImportButton.clicked += ImportScene;
         importWindowRefreshButton.clicked += RefreshImportFiles;
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
-
-        colorSelectorDropDownField.RegisterValueChangedCallback(evt => OnColorSwitched(evt.newValue));
-        colorSelectorDropDownField.RegisterCallback<MouseMoveEvent>(evt => OnColorHovered());
         
         legoSelectorDropDownField.RegisterValueChangedCallback(evt => OnLegoSelected(legoSelectorDropDownField.index));
-
-        //Assign all predefined colors of Unity to our list of colors.
-        foreach (var color in typeof(Color).GetProperties(BindingFlags.Public | BindingFlags.Static))
-        {
-            //Debug.Log(color.Name);
-            predefinedColorList.Add(color.Name, (Color)color.GetValue(null));
-            colorSelectorDropDownField.choices.Add(color.Name);
-        }
-        //This is the color automatically selected at the start of the software.
-        colorSelectorDropDownField.value = "red";
 
         foreach (GameObject lego in GameManager.Instance.usableLegoList)
         {
@@ -80,7 +67,6 @@ public class UIController : MonoBehaviour
 
         CloseExportWindow();
         CloseImportWindow();
-        OnColorSwitched(colorSelectorDropDownField.value);
     }
 
     private void OnColorSwitchButtonClicked()
@@ -91,14 +77,12 @@ public class UIController : MonoBehaviour
 
     private void OnColorHovered()
     {
-
         Debug.Log("test");
     }
-    private void OnColorSwitched(string colorName)
+
+    private void OnColorSwitched(int itemIndex)
     {
-        Image colorPreviewImage = uiDocument.rootVisualElement.Q<Image>("ImageColorPreview");
-        GameManager.Instance.colorSelected = predefinedColorList[colorName];
-        colorPreviewImage.style.backgroundColor = predefinedColorList[colorName];
+        GameManager.Instance.colorSelected = colors.items[itemIndex].color;
     }
 
     public void OnLegoSelected(int index)

@@ -7,11 +7,12 @@ using UnityEngine;
 public class ColorAvailable : ScriptableObject
 {
     [Serializable]
-    public class Item
+    public class ColorUI
     {
         public string label;
         public Texture2D icon;
+        public Color color;
     }
 
-    public List<Item> items;
+    public List<ColorUI> items;
 }
