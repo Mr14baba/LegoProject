@@ -35,6 +35,6 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="ControlsPlaceholder" style="flex-grow: 0; align-items: auto; justify-content: flex-start; align-self: auto; align-content: auto; top: auto; left: auto; bottom: 0; flex-shrink: 0; flex-basis: auto; position: absolute; right: 0;">
-        <ui:Label text="Controls :&#10;WASD = Movement&#10;Middle click = Camera Movement&#10;Mouse scroll = Zoom&#10;Place lego = Left Click&#10;Rotate lego = R&#10;Remove lego = Right Click&#10;Switch lego = 1 &amp; 3&#10;Switch bottom clip = F&#10;Enable paint mode = T&#10;" name="ControlsLabel" style="-unity-text-align: upper-left; background-color: rgba(0, 0, 0, 0.39); color: rgb(253, 220, 77); padding-left: 5px; padding-right: 5px; align-self: flex-end; align-content: auto; justify-content: flex-start; align-items: auto;"/>
+        <ui:Label text="Controls :&#10;Movement = WASD&#10;Camera movement = Middle Click&#10;Zoom = Mouse Scroll&#10;Place lego = Left Click&#10;Rotate lego = R&#10;Remove lego = Right Click&#10;Switch lego = 1 &amp; 3&#10;Switch bottom clip = F&#10;Enable paint mode = T&#10;" name="ControlsLabel" style="-unity-text-align: upper-left; background-color: rgba(0, 0, 0, 0.39); color: rgb(253, 220, 77); padding-left: 5px; padding-right: 5px; align-self: flex-end; align-content: auto; justify-content: flex-start; align-items: auto;"/>
     </ui:VisualElement>
 </ui:UXML>
