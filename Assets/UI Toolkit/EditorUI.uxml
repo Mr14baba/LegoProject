@@ -11,28 +11,24 @@
             <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 25px;"/>
             <ui:VisualElement name="ColorButtonGroup" style="justify-content: space-evenly;">
                 <ui:VisualElement name="" style="flex-direction: row;">
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
+                    <ui:RadioButton label="" value="true" name="" class="colorSelectorRadioButton" style="width: 25px; height: 25px;"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="" style="flex-direction: row;">
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
-                    <ui:RadioButton label=""/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 50px;"/>
             <ui:Button text="Paint Mode" name="ColorSwitchButton" class="button" style="background-color: rgb(220, 49, 50); transition-duration: 0.1s; margin-right: 4px; margin-left: 4px; padding-left: 0; padding-top: 10px; padding-right: 0; padding-bottom: 10px; align-self: center; width: 80px; margin-top: 2px;"/>
-            <ui:VisualElement name="ColorSelectorContainer" style="flex-grow: 1; flex-direction: row;">
-                <ui:Label text="Color" style="font-size: 20px; align-self: center;"/>
-                <DropdownWithImage name="ColorSelector" arrow-image="project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=-1304905567622442630&amp;guid=1fd29a69d0b44f944b25557794be1e65&amp;type=3#arrow-down@2x" style="align-self: center; background-color: rgb(178, 178, 178); width: 250px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; height: 74px; overflow: visible;"/>
-            </ui:VisualElement>
             <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 50px;"/>
         </ui:VisualElement>
         <ui:VisualElement name="RightUI" style="flex-grow: 0; flex-direction: row; align-self: center;">

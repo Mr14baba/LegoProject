@@ -40,15 +40,12 @@ public class UIController : MonoBehaviour
         
         legoSelector.RegisterValueChangedCallback(evt => OnLegoSwitched(evt.newValue));
 
-        DropdownWithImage colorSelector = uiDocument.rootVisualElement.Q<DropdownWithImage>("ColorSelector");
-
         foreach(var item in colors.items)
         {
-            colorSelector.AddItem(new DropdownWithImage.Item{ Label = item.label, Icon = item.icon});
             VisualElement checkmarkBackground = ColorButtons[colors.items.IndexOf(item)].Q<VisualElement>(className: "unity-radio-button__checkmark-background");
             VisualElement checkmark = ColorButtons[colors.items.IndexOf(item)].Q<VisualElement>(className: "unity-radio-button__checkmark");
             checkmarkBackground.style.backgroundColor = item.color;
-            checkmark.style.backgroundColor = new Color(-item.color.r + 1f, -item.color.g + 1f, -item.color.b + 1f, 1f);
+            checkmark.style.backgroundColor = new Color(0f, 0f, 0f, 0f);
             ColorButtons[colors.items.IndexOf(item)].RegisterValueChangedCallback(evt => 
             {
                 if (evt.newValue)
@@ -57,10 +54,6 @@ public class UIController : MonoBehaviour
                 }
             });
         }
-
-        colorSelector.SelectItem(colorSelector.items[0]);
-        
-        colorSelector.RegisterValueChangedCallback(evt => OnColorSwitched(evt.newValue));
 
         colorSwitchButton.clicked += OnColorSwitchButtonClicked;
 

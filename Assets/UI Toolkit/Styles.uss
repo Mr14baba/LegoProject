@@ -9,3 +9,28 @@
     padding-left: 20px;
     padding-right: 20px;
 }
+
+.colorSelectorRadioButton{
+    
+}
+
+.colorSelectorRadioButton > .unity-radio-button__input > .unity-radio-button__checkmark-background{
+
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+}
+
+.colorSelectorRadioButton:checked > .unity-radio-button__input > .unity-radio-button__checkmark-background{
+    border-color: rgb(207, 207, 207);
+    border-top-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-right-width: 4px;
+}
+
+.colorSelectorRadioButton > .unity-radio-button__input > .unity-radio-button__checkmark{
+
+    background-color: rgba(0, 0, 0, 0);
+}
