@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -27,7 +26,9 @@ public class UIController : MonoBehaviour
         Button importWindowImportButton = uiDocument.rootVisualElement.Q<Button>("ImportImportButton");
         Button importWindowRefreshButton = uiDocument.rootVisualElement.Q<Button>("ImportRefreshButton");
         Button importWindowCancelButton = uiDocument.rootVisualElement.Q<Button>("ImportCancelButton");
-        ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("ListTest");
+        ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("SceneListView");
+
+        List<RadioButton> ColorButtons = uiDocument.rootVisualElement.Q<VisualElement>("ColorButtonGroup").Query<RadioButton>().ToList();
 
         DropdownWithImage legoSelector = uiDocument.rootVisualElement.Q<DropdownWithImage>("LegoSelector");
 
@@ -44,7 +45,19 @@ public class UIController : MonoBehaviour
         foreach(var item in colors.items)
         {
             colorSelector.AddItem(new DropdownWithImage.Item{ Label = item.label, Icon = item.icon});
+            VisualElement checkmarkBackground = ColorButtons[colors.items.IndexOf(item)].Q<VisualElement>(className: "unity-radio-button__checkmark-background");
+            VisualElement checkmark = ColorButtons[colors.items.IndexOf(item)].Q<VisualElement>(className: "unity-radio-button__checkmark");
+            checkmarkBackground.style.backgroundColor = item.color;
+            checkmark.style.backgroundColor = new Color(-item.color.r + 1f, -item.color.g + 1f, -item.color.b + 1f, 1f);
+            ColorButtons[colors.items.IndexOf(item)].RegisterValueChangedCallback(evt => 
+            {
+                if (evt.newValue)
+                {
+                    OnColorSwitched(colors.items.IndexOf(item));
+                }
+            });
         }
+
         colorSelector.SelectItem(colorSelector.items[0]);
         
         colorSelector.RegisterValueChangedCallback(evt => OnColorSwitched(evt.newValue));
@@ -157,7 +170,7 @@ public class UIController : MonoBehaviour
 
     private void RefreshImportFiles()
     {
-        ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("SceneList");
+        ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("SceneListView");
 
         List<string> itemList = Directory.GetFiles(sceneFolderPath, "*.json").ToList();
 

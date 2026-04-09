@@ -105,7 +105,6 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator PlacePieceCoroutine()
     {
-        bool isPlacable = false;
         Vector3 spawnPos = Vector3.zero;
         Quaternion spawnRot = quaternion.identity;
         GameObject parentLego = null;
@@ -116,20 +115,21 @@ public class PlayerController : MonoBehaviour
         {
             if (isCorrectSurface)
             {
+                legoDecoy.SetActive(true);
                 //select method to place lego on surface
                 switch (mouseCast.collider.gameObject.layer)
                 {
                     case 3:
                         mouseCast.transform.GetPositionAndRotation(out spawnPos, out spawnRot);
                         parentLego = mouseCast.collider.gameObject;
-                        isPlacable = true;
+                        legoDecoy.SetActive(true);
                         break;
 
                     case 6:
                         spawnPos = RoundVector3AwayFromZero(mouseCast.point);
                         spawnRot = quaternion.identity;
                         parentLego = null;
-                        isPlacable = true;
+                        legoDecoy.SetActive(true);
                         break;
 
                     case 7:
@@ -143,26 +143,26 @@ public class PlayerController : MonoBehaviour
                         spawnPos = legoDecoy.transform.position;
                         spawnRot = mouseCast.transform.rotation * Quaternion.Inverse(child.localRotation);
                         parentLego = mouseCast.collider.gameObject;
-                        isPlacable = true;
+                        legoDecoy.SetActive(true);
                         break;
 
                     default:
                         parentLego = null;
-                        isPlacable = false;
+                        legoDecoy.SetActive(false);
                         break;
                 }
             }
             else
             {
-                isPlacable = false;
                 spawnPos = Vector3.zero;
+                legoDecoy.SetActive(false);
             }
             legoDecoy.transform.SetPositionAndRotation(spawnPos, spawnRot * legoRotation);
             yield return null;
         }
 
         //Place lego if it is placable, else destroys it
-        if (isPlacable && !controls.Player.RemovePiece.IsPressed())
+        if (legoDecoy.activeSelf && !controls.Player.RemovePiece.IsPressed())
         {
             if (parentLego != null)
             {
