@@ -282,8 +282,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!controls.Player.PlacePiece.IsPressed())
         {
-        UIController uiController = FindAnyObjectByType<UIController>();
-            uiController.OnLegoSelected(Mathf.Clamp((int)GameManager.Instance.legoSelected + (int)SwitchAxis, 0, GameManager.Instance.usableLegoList.Count() - 1));
+            UIController uiController = FindAnyObjectByType<UIController>();
+            uiController.OnLegoSwitched(Mathf.Clamp((int)GameManager.Instance.legoSelected + (int)SwitchAxis, 0, GameManager.Instance.usableLegoList.Count() - 1), true);
         }
     }
 

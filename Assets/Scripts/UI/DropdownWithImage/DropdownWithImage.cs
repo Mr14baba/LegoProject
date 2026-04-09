@@ -13,7 +13,6 @@ public partial class DropdownWithImage : BaseField<int>
     {
         public string Label;
         public Texture2D Icon;
-        public Color color;
     }
     public List<Item> items = new();
     private VisualElement popup;
@@ -30,11 +29,11 @@ public partial class DropdownWithImage : BaseField<int>
 
         var display = this.Q<VisualElement>(className: "unity-base-field__input");
 
+        selectedLabel = new Label("Selected value");
+        selectedLabel.AddToClassList("image-dropdown-field__selected-label");
+
         selectedIcon = new Image();
         selectedIcon.AddToClassList("image-dropdown-field__selected-icon");
-
-        selectedLabel = new Label("Select...");
-        selectedLabel.AddToClassList("image-dropdown-field__selected-label");
 
         display.Add(selectedLabel);
         display.Add(selectedIcon);
@@ -118,6 +117,8 @@ public partial class DropdownWithImage : BaseField<int>
     private void OnPointerDownOutside(PointerDownEvent evt)
     {
         if (isOpen && !this.worldBound.Contains(evt.position) && !popup.worldBound.Contains(evt.position))
+        {
             ClosePopup();
+        }  
     }
 }

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ColorAvailable", menuName = "Scriptable Objects/ColorAvailable")]
-public class ColorAvailable : ScriptableObject
+public class UIColorAvailable : ScriptableObject
 {
     [Serializable]
     public class ColorUI

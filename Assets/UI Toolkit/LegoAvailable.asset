@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8041ecec3bcfb744d83193516f0f43cb, type: 3}
+  m_Name: LegoAvailable
+  m_EditorClassIdentifier: Assembly-CSharp::UILegoAvailable
+  items:
+  - label: Lego 1x1 Testing
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    lego: 0
+  - label: Lego 1x1
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    lego: 1
+  - label: Lego 1x2
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    lego: 2
+  - label: Lego 2x2
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    lego: 3
+  - label: Lego plat 1x1
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    lego: 4
+  - label: Lego plat 1x2
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    lego: 5
+  - label: Lego plat 2x2
+    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+    lego: 6

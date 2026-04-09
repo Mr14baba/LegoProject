@@ -10,10 +10,10 @@ using UnityEngine.UIElements;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private ColorAvailable colors;
+    [SerializeField] private UIColorAvailable colors;
+    [SerializeField] private UILegoAvailable legos;
     [SerializeField] private SerializableList<LegoData> SerializableLegoList;
     private string fileToLoad;
-    List<string> itemList = new();
     private readonly string sceneFolderPath  = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LegoScenes";
     void Start()
     {
@@ -29,18 +29,25 @@ public class UIController : MonoBehaviour
         Button importWindowCancelButton = uiDocument.rootVisualElement.Q<Button>("ImportCancelButton");
         ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("ListTest");
 
-        //DropdownField colorSelectorDropDownField = uiDocument.rootVisualElement.Q<DropdownField>("ColorSelector");
+        DropdownWithImage legoSelector = uiDocument.rootVisualElement.Q<DropdownWithImage>("LegoSelector");
+
+        foreach(var item in legos.items)
+        {
+            legoSelector.AddItem(new DropdownWithImage.Item{ Label = item.label, Icon = item.icon});
+        }
+        legoSelector.SelectItem(legoSelector.items[0]);
+        
+        legoSelector.RegisterValueChangedCallback(evt => OnLegoSwitched(evt.newValue));
+
         DropdownWithImage colorSelector = uiDocument.rootVisualElement.Q<DropdownWithImage>("ColorSelector");
 
         foreach(var item in colors.items)
         {
-            colorSelector.AddItem(new DropdownWithImage.Item{ Label = item.label, Icon = item.icon, color = item.color});
+            colorSelector.AddItem(new DropdownWithImage.Item{ Label = item.label, Icon = item.icon});
         }
         colorSelector.SelectItem(colorSelector.items[0]);
         
         colorSelector.RegisterValueChangedCallback(evt => OnColorSwitched(evt.newValue));
-
-        DropdownField legoSelectorDropDownField = uiDocument.rootVisualElement.Q<DropdownField>("LegoSelector");
 
         colorSwitchButton.clicked += OnColorSwitchButtonClicked;
 
@@ -55,15 +62,6 @@ public class UIController : MonoBehaviour
         importWindowImportButton.clicked += ImportScene;
         importWindowRefreshButton.clicked += RefreshImportFiles;
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
-        
-        legoSelectorDropDownField.RegisterValueChangedCallback(evt => OnLegoSelected(legoSelectorDropDownField.index));
-
-        foreach (GameObject lego in GameManager.Instance.usableLegoList)
-        {
-            legoSelectorDropDownField.choices.Add(lego.name);
-        }
-
-        legoSelectorDropDownField.index = 0;
 
         CloseExportWindow();
         CloseImportWindow();
@@ -75,9 +73,16 @@ public class UIController : MonoBehaviour
         PaintModeModified();
     }
 
-    private void OnColorHovered()
+
+    public void OnLegoSwitched(int itemIndex, bool setItemInUI = false)
     {
-        Debug.Log("test");
+        GameManager.Instance.legoSelected = itemIndex;
+
+        if (setItemInUI)
+        {
+            DropdownWithImage ls = uiDocument.rootVisualElement.Q<DropdownWithImage>("LegoSelector");
+            ls.SelectItem(ls.items[itemIndex]);
+        }
     }
 
     private void OnColorSwitched(int itemIndex)
@@ -85,26 +90,18 @@ public class UIController : MonoBehaviour
         GameManager.Instance.colorSelected = colors.items[itemIndex].color;
     }
 
-    public void OnLegoSelected(int index)
-    {
-        DropdownField legoSelectorDropDownField = uiDocument.rootVisualElement.Q<DropdownField>("LegoSelector");
-        GameManager.Instance.legoSelected = index;
-        legoSelectorDropDownField.index = index;
-    }
-
     public void PaintModeModified()
     {
         Button colorSwitchButton = uiDocument.rootVisualElement.Q<Button>("ColorSwitchButton");
-        Color newColor;
+
         if (GameManager.Instance.paintModeEnabled)
         {
-            newColor = Color.softGreen;
+            colorSwitchButton.style.backgroundColor = Color.softGreen;
         }
         else
         {
-            newColor = Color.softRed;
+            colorSwitchButton.style.backgroundColor = Color.softRed;
         }
-        colorSwitchButton.style.backgroundColor = newColor;  
     }
     private string SerializeLego()
     {
@@ -160,9 +157,9 @@ public class UIController : MonoBehaviour
 
     private void RefreshImportFiles()
     {
-        ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("ListTest");
+        ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("SceneList");
 
-        itemList = Directory.GetFiles(sceneFolderPath, "*.json").ToList();
+        List<string> itemList = Directory.GetFiles(sceneFolderPath, "*.json").ToList();
 
         Func<VisualElement> makeItem = () => new Label();
         //We select last backslash to have the .json file and we split the .json part of the name.

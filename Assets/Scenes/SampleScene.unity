@@ -689,6 +689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIController
   uiDocument: {fileID: 687144984}
   colors: {fileID: 11400000, guid: aff8453ce789c304f8a39dd874170477, type: 2}
+  legos: {fileID: 11400000, guid: aee108ad2c5881b4eb8209630b83ab9f, type: 2}
   SerializableLegoList:
     list: []
 --- !u!1 &832575517
