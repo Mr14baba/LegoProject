@@ -13,6 +13,7 @@ public partial class DropdownWithImage : BaseField<int>
         public Texture2D Icon;
     }
     public List<Item> items = new();
+    [HideInInspector] public Texture2D mouseHoverSprite;
     private VisualElement popup;
     private Image selectedIcon;
     private Label selectedLabel;
@@ -92,6 +93,8 @@ public partial class DropdownWithImage : BaseField<int>
 
             Item captured = item;
             row.RegisterCallback<ClickEvent>(evt => SelectItem(captured));
+            row.RegisterCallback<MouseEnterEvent>(evt => UnityEngine.Cursor.SetCursor(mouseHoverSprite, new(16,0), CursorMode.Auto));
+            row.RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto));
 
             popup.Add(row);
         }

@@ -39,13 +39,16 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="ExportSceneWindow" style="align-self: center; background-color: rgb(92, 113, 156); border-top-right-radius: 10px; border-top-left-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; top: 10%; position: absolute; right: 1%;">
-        <ui:TextField label="Scene name  :" placeholder-text="newScene" name="ExportTextField" style="flex-direction: row; align-items: center; font-size: 20px; min-width: 400px;"/>
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+            <ui:Label text="New scene" style="align-self: center; font-size: 20px;"/>
+            <ui:TextField label="" placeholder-text="newScene" name="ExportTextField" style="flex-direction: row; font-size: 20px; min-width: 300px;"/>
+        </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
             <ui:Button text="Cancel" name="ExportCancelButton" style="font-size: 20px;"/>
             <ui:Button text="Export" name="ExportExportButton" style="font-size: 20px;"/>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="ImportSceneWindow" style="align-self: center; padding-left: 10px; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; background-color: rgb(154, 53, 53); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; top: 10%; right: 1%; position: absolute;">
+    <ui:VisualElement name="ImportSceneWindow" style="align-self: center; padding-left: 10px; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; background-color: rgb(154, 53, 53); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; top: 10%; right: 1%; position: absolute; display: flex;">
         <ui:ListView name="SceneListView" show-border="true" style="background-color: rgb(209, 209, 209); font-size: 20px; max-height: 200px; min-width: 400px; margin-bottom: 10px;"/>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
             <ui:Button text="Cancel" name="ImportCancelButton" style="font-size: 20px;"/>

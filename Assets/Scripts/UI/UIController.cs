@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,6 +15,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private SerializableList<LegoData> SerializableLegoList;
     private string fileToLoad;
     private readonly string sceneFolderPath  = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LegoScenes";
+    public Texture2D mouseHoverSprite;
+    public Texture2D mouseWriteSprite;
     void Start()
     {
         Button colorSwitchButton = uiDocument.rootVisualElement.Q<Button>("ColorSwitchButton");
@@ -31,6 +34,9 @@ public class UIController : MonoBehaviour
         List<RadioButton> ColorButtons = uiDocument.rootVisualElement.Q<VisualElement>("ColorButtonGroup").Query<RadioButton>().ToList();
 
         DropdownWithImage legoSelector = uiDocument.rootVisualElement.Q<DropdownWithImage>("LegoSelector");
+        legoSelector.mouseHoverSprite = mouseHoverSprite;
+
+        // Set all legos to put in the dropdown
 
         foreach(var item in legos.items)
         {
@@ -40,12 +46,18 @@ public class UIController : MonoBehaviour
         
         legoSelector.RegisterValueChangedCallback(evt => OnLegoSwitched(evt.newValue));
 
+        // Set all colors to put in the radio buttons
+
         foreach(var item in colors.items)
         {
             VisualElement checkmarkBackground = ColorButtons[colors.items.IndexOf(item)].Q<VisualElement>(className: "unity-radio-button__checkmark-background");
             VisualElement checkmark = ColorButtons[colors.items.IndexOf(item)].Q<VisualElement>(className: "unity-radio-button__checkmark");
+            
+            //Set color of each buttons background and hide the checkmark
             checkmarkBackground.style.backgroundColor = item.color;
             checkmark.style.backgroundColor = new Color(0f, 0f, 0f, 0f);
+
+            //Set the event to change the color selected for each button
             ColorButtons[colors.items.IndexOf(item)].RegisterValueChangedCallback(evt => 
             {
                 if (evt.newValue)
@@ -53,13 +65,17 @@ public class UIController : MonoBehaviour
                     OnColorSwitched(colors.items.IndexOf(item));
                 }
             });
+
+            // Set all callbacks to update mouse sprite when hovered
+            ColorButtons[colors.items.IndexOf(item)].RegisterCallback<MouseEnterEvent>(evt => UnityEngine.Cursor.SetCursor(mouseHoverSprite, new(16,0), CursorMode.Auto));
+            ColorButtons[colors.items.IndexOf(item)].RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto));
         }
+
+        // Set all events when buttons are clicked
 
         colorSwitchButton.clicked += OnColorSwitchButtonClicked;
 
         exportButton.clicked += OpenExportWindow;
-        exportTextField.RegisterCallback<FocusInEvent>(evt => OnTextFieldFocusGained());
-        exportTextField.RegisterCallback<FocusOutEvent>(evt => OnTextFieldFocusLost());
         exportWindowCancelButton.clicked += CloseExportWindow;
         exportWindowExportButton.clicked += ExportScene;
 
@@ -69,8 +85,37 @@ public class UIController : MonoBehaviour
         importWindowRefreshButton.clicked += RefreshImportFiles;
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
 
+        exportTextField.RegisterCallback<FocusInEvent>(evt => OnTextFieldFocusGained());
+        exportTextField.RegisterCallback<FocusOutEvent>(evt => OnTextFieldFocusLost());
+
+        // Close the export and import window
+
         CloseExportWindow();
         CloseImportWindow();
+
+        // Set all callbacks to update mouse sprite
+
+        VisualElement[] elementsWithMouseEvent = 
+        {
+            colorSwitchButton,
+            exportButton,
+            exportWindowExportButton,
+            exportWindowCancelButton,
+            importButton,
+            importWindowImportButton,
+            importWindowRefreshButton,
+            importWindowCancelButton,
+            legoSelector,
+        };
+
+        foreach(VisualElement element in elementsWithMouseEvent)
+        {
+            element.RegisterCallback<MouseEnterEvent>(evt => UnityEngine.Cursor.SetCursor(mouseHoverSprite, new(16,0), CursorMode.Auto));
+            element.RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto));
+        };
+
+        exportTextField.RegisterCallback<MouseEnterEvent>(evt => UnityEngine.Cursor.SetCursor(mouseWriteSprite, Vector2.zero, CursorMode.Auto));
+        exportTextField.RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto));
     }
 
     private void OnColorSwitchButtonClicked()
@@ -186,12 +231,14 @@ public class UIController : MonoBehaviour
 
     private void OnTextFieldFocusGained()
     {
+        UnityEngine.Cursor.SetCursor(mouseWriteSprite, Vector2.zero, CursorMode.Auto);
         PlayerController playerController = FindAnyObjectByType<PlayerController>();
         playerController.controls.Disable();
     }
 
     private void OnTextFieldFocusLost()
     {
+        UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         PlayerController playerController = FindAnyObjectByType<PlayerController>();
         playerController.controls.Enable();
     }

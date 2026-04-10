@@ -10,10 +10,6 @@
     padding-right: 20px;
 }
 
-.colorSelectorRadioButton{
-    
-}
-
 .colorSelectorRadioButton > .unity-radio-button__input > .unity-radio-button__checkmark-background{
 
     border-top-width: 1px;

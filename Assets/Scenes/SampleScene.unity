@@ -451,7 +451,7 @@ Light:
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 5000
-  m_UseColorTemperature: 1
+  m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
@@ -692,6 +692,8 @@ MonoBehaviour:
   legos: {fileID: 11400000, guid: aee108ad2c5881b4eb8209630b83ab9f, type: 2}
   SerializableLegoList:
     list: []
+  mouseHoverSprite: {fileID: 2800000, guid: 4ace28f1140b7f34e80211a10f20ca16, type: 3}
+  mouseWriteSprite: {fileID: 2800000, guid: 4fa2bc7bc37dd764cb455980f6eda1e5, type: 3}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
