@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LegoBlock : MonoBehaviour
 {
-    private new Renderer renderer;
+    private Renderer legoRenderer;
 
     [HideInInspector]public Material ActualLegoMaterial;
     [HideInInspector]public Material HoveringLegoMaterial;
@@ -10,8 +10,8 @@ public class LegoBlock : MonoBehaviour
 
     public void Awake()
     {
-        renderer = GetComponent<Renderer>();
-        ActualLegoMaterial = renderer.material;
+        legoRenderer = GetComponent<Renderer>();
+        ActualLegoMaterial = legoRenderer.material;
         ActualLegoMaterial.color = GameManager.Instance.colorSelected;
         for(int i = 0; i < transform.childCount; i++)
         {
@@ -22,7 +22,7 @@ public class LegoBlock : MonoBehaviour
     public void SetMaterial(Material material)
     {
         ActualLegoMaterial = material;
-        renderer.material = ActualLegoMaterial;
+        legoRenderer.material = ActualLegoMaterial;
         for(int i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(i).GetComponent<Renderer>().material = ActualLegoMaterial;
@@ -32,7 +32,7 @@ public class LegoBlock : MonoBehaviour
     public void SetHoveringMaterial(Material material)
     {
         HoveringLegoMaterial = material;
-        renderer.material = HoveringLegoMaterial;
+        legoRenderer.material = HoveringLegoMaterial;
         for(int i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(i).GetComponent<Renderer>().material = HoveringLegoMaterial;
@@ -41,7 +41,7 @@ public class LegoBlock : MonoBehaviour
 
     public void ResetHoveringMaterial()
     {
-        renderer.material = ActualLegoMaterial;
+        legoRenderer.material = ActualLegoMaterial;
         for(int i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(i).GetComponent<Renderer>().material = ActualLegoMaterial;
