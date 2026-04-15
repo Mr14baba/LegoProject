@@ -146,11 +146,17 @@ public class UIController : MonoBehaviour
 
         if (GameManager.Instance.paintModeEnabled)
         {
-            colorSwitchButton.style.backgroundColor = Color.softGreen;
+            colorSwitchButton.style.borderTopColor = Color.softGreen;
+            colorSwitchButton.style.borderBottomColor = Color.softGreen;
+            colorSwitchButton.style.borderLeftColor = Color.softGreen;
+            colorSwitchButton.style.borderRightColor = Color.softGreen;
         }
         else
         {
-            colorSwitchButton.style.backgroundColor = Color.softRed;
+            colorSwitchButton.style.borderTopColor = Color.softRed;
+            colorSwitchButton.style.borderBottomColor = Color.softRed;
+            colorSwitchButton.style.borderLeftColor = Color.softRed;
+            colorSwitchButton.style.borderRightColor = Color.softRed;
         }
     }
     private string SerializeLego()

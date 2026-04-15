@@ -24,14 +24,14 @@
                     <ui:RadioButton label="" class="colorSelectorRadioButton"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 25px;"/>
-            <ui:Button text="Paint&#10;Mode" name="ColorSwitchButton" class="button" style="background-color: rgb(220, 49, 50); transition-duration: 0.1s; margin-right: 4px; margin-left: 4px; padding-left: 10px; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; align-self: stretch; margin-top: 2px; color: rgb(255, 255, 255); font-size: 20px; border-bottom-width: 1px; border-left-width: 1px; border-top-width: 1px; border-right-width: 1px;"/>
+            <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 20px;"/>
+            <ui:Button text="Paint&#10;Mode" name="ColorSwitchButton" class="button" style="background-color: rgb(100, 100, 100); transition-duration: 0.1s; margin-right: 4px; margin-left: 4px; padding-left: 10px; padding-top: 5px; padding-right: 10px; padding-bottom: 5px; align-self: stretch; margin-top: 2px; color: rgb(255, 255, 255); font-size: 20px; border-bottom-width: 3px; border-left-width: 3px; border-top-width: 3px; border-right-width: 3px; border-left-color: rgb(220, 49, 50); border-right-color: rgb(220, 49, 50); border-top-color: rgb(220, 49, 50); border-bottom-color: rgb(220, 49, 50); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; transition-timing-function: linear; margin-bottom: 2px;"/>
             <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 50px;"/>
         </ui:VisualElement>
         <ui:VisualElement name="RightUI" style="flex-grow: 0; flex-direction: row; align-self: center;">
-            <ui:VisualElement name="ImportExportButton" style="flex-grow: 1; background-size: 100% 100%; min-width: 120px; flex-direction: column;">
-                <ui:Button text="Import" name="ImportButton" class="button" style="margin-left: 4px; background-color: rgb(100, 100, 100); color: rgb(255, 255, 255);"/>
-                <ui:Button text="Export&#10;" name="ExportButton" class="button" style="margin-right: 4px; margin-left: 4px; background-color: rgb(100, 100, 100); color: rgb(255, 255, 255);"/>
+            <ui:VisualElement name="ImportExportButton" style="background-size: 100% 100%; min-width: 120px; flex-direction: column; align-items: flex-end;">
+                <ui:Button text="Import" name="ImportButton" class="button" style="margin-left: 4px; background-color: rgb(100, 100, 100); color: rgb(255, 255, 255); font-size: 20px; padding-left: 6px; padding-right: 6px; padding-top: 6px; padding-bottom: 6px; width: 90px;"/>
+                <ui:Button text="Export&#10;" name="ExportButton" class="button" style="margin-right: 4px; margin-left: 4px; background-color: rgb(100, 100, 100); color: rgb(255, 255, 255); font-size: 20px; padding-left: 6px; padding-right: 6px; padding-top: 6px; padding-bottom: 6px; width: 90px;"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
@@ -45,8 +45,8 @@
             <ui:TextField label="" placeholder-text="newScene" name="ExportTextField" style="flex-direction: row; font-size: 20px; margin-right: 10px; margin-left: 0; margin-top: 0; margin-bottom: 0; padding-bottom: 0; flex-grow: 1;"/>
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between; padding-bottom: 0; padding-left: 0; padding-right: 0; margin-left: 10px; margin-bottom: 7px; margin-right: 10px; align-items: flex-end;">
-            <ui:Button text="Cancel" name="ExportCancelButton" style="font-size: 14px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 60px; height: 30px;"/>
-            <ui:Button text="Export" name="ExportExportButton" style="font-size: 14px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 60px; height: 30px;"/>
+            <ui:Button text="Cancel" name="ExportCancelButton" style="font-size: 14px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 60px; height: 30px; color: rgb(255, 255, 255); background-color: rgb(100, 100, 100);"/>
+            <ui:Button text="Export" name="ExportExportButton" style="font-size: 14px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 60px; height: 30px; background-color: rgb(100, 100, 100); color: rgb(255, 255, 255);"/>
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="ImportSceneWindow" enabled="true" style="align-self: center; padding-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; background-color: rgb(47, 47, 47); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; top: 90px; right: 1%; position: absolute; display: flex; min-width: 400px; visibility: visible; border-bottom-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0);">
@@ -56,9 +56,9 @@
         </ui:VisualElement>
         <ui:ListView name="SceneListView" show-border="true" style="background-color: rgb(209, 209, 209); font-size: 20px; max-height: 200px; margin-bottom: 10px; margin-right: 10px; margin-left: 10px; margin-top: 10px;"/>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row; margin-left: 10px; margin-right: 10px; margin-bottom: 7px; align-items: flex-end; justify-content: space-between;">
-            <ui:Button text="Cancel" name="ImportCancelButton" style="font-size: 14px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-top: 0; margin-bottom: 0; margin-right: 0; height: 30px; width: 60px;"/>
-            <ui:Button text="Refresh" name="ImportRefreshButton" style="font-size: 14px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 60px; height: 30px;"/>
-            <ui:Button text="Import" name="ImportImportButton" style="font-size: 14px; width: 60px; height: 30px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
+            <ui:Button text="Cancel" name="ImportCancelButton" style="font-size: 14px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-top: 0; margin-bottom: 0; margin-right: 0; height: 30px; width: 60px; background-color: rgb(100, 100, 100); color: rgb(255, 255, 255);"/>
+            <ui:Button text="Refresh" name="ImportRefreshButton" style="font-size: 14px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 60px; height: 30px; background-color: rgb(100, 100, 100); color: rgb(255, 255, 255);"/>
+            <ui:Button text="Import" name="ImportImportButton" style="font-size: 14px; width: 60px; height: 30px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgb(100, 100, 100); color: rgb(255, 255, 255);"/>
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="ControlsPlaceholder" style="flex-grow: 0; align-items: auto; justify-content: flex-start; align-self: auto; align-content: auto; top: auto; left: auto; bottom: 0; flex-shrink: 0; flex-basis: auto; position: absolute; right: 0;">
