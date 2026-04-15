@@ -13,24 +13,24 @@ MonoBehaviour:
   m_Name: LegoAvailable
   m_EditorClassIdentifier: Assembly-CSharp::UILegoAvailable
   items:
-  - label: Lego 1x1 Testing
-    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+  - label: 1x1 Testing
+    icon: {fileID: 2800000, guid: e981cbbe1d66f3341a36f3eb69985e2d, type: 3}
     lego: 0
-  - label: Lego 1x1
-    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+  - label: 1x1
+    icon: {fileID: 2800000, guid: c5303464933c705439425be16a524c27, type: 3}
     lego: 1
-  - label: Lego 1x2
-    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+  - label: 1x2
+    icon: {fileID: 2800000, guid: c97d524295e88204cb19cd8fa92285e6, type: 3}
     lego: 2
-  - label: Lego 2x2
-    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+  - label: 2x2
+    icon: {fileID: 2800000, guid: 022060ff2a65a2c42b811dc785338f11, type: 3}
     lego: 3
-  - label: Lego plat 1x1
-    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+  - label: Flat 1x1
+    icon: {fileID: 2800000, guid: 1f44c4620e8ffeb40b30424fdcbadfa0, type: 3}
     lego: 4
-  - label: Lego plat 1x2
-    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+  - label: Flat 1x2
+    icon: {fileID: 2800000, guid: 7446c04ec66f82a42a73ddeb4a3444d7, type: 3}
     lego: 5
-  - label: Lego plat 2x2
-    icon: {fileID: -6527069497977903076, guid: 1fd29a69d0b44f944b25557794be1e65, type: 3}
+  - label: Flat 2x2
+    icon: {fileID: 2800000, guid: dec47f8c553faaa40aa6dac97258bf95, type: 3}
     lego: 6

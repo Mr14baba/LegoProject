@@ -64,12 +64,14 @@
 .image-dropdown-field__popup-icon {
     width: 64px;
     height: 64px;
-    margin-right: 6px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 .image-dropdown-field__popup-label {
     flex-grow: 1;
     font-size: 20px;
+    padding-left: 4px;
     color: rgb(255, 255, 255)
 }
 
