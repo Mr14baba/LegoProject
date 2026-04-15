@@ -291,7 +291,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!legoDecoy.IsUnityNull())
         {
-            Debug.Log(legoDecoy.transform.InverseTransformDirection(legoDecoy.transform.GetChild(actualLegoClip).up));
+            //Debug.Log(legoDecoy.transform.InverseTransformDirection(legoDecoy.transform.GetChild(actualLegoClip).up));
             legoRotation *= Quaternion.Euler(legoDecoy.transform.InverseTransformDirection(legoDecoy.transform.GetChild(actualLegoClip).up) * 90);
         }
     }
