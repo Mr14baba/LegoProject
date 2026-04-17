@@ -11,10 +11,12 @@ public class UIController : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private UIColorAvailable colors;
     [SerializeField] private UILegoAvailable legos;
-    [SerializeField] private SerializableList<LegoData> SerializableLegoList;
+    private SerializableList<LegoData> SerializableLegoList;
     private string fileToLoad;
+    [HideInInspector] public Texture2D DefaultMouseSprite = null;
     public Texture2D mouseHoverSprite;
     public Texture2D mouseWriteSprite;
+    public Texture2D mousePaintSprite;
     void Start()
     {
         Button colorSwitchButton = uiDocument.rootVisualElement.Q<Button>("ColorSwitchButton");
@@ -67,7 +69,7 @@ public class UIController : MonoBehaviour
 
             // Set all callbacks to update mouse sprite when hovered
             ColorButtons[colors.items.IndexOf(item)].RegisterCallback<MouseEnterEvent>(evt => UnityEngine.Cursor.SetCursor(mouseHoverSprite, new(16,0), CursorMode.Auto));
-            ColorButtons[colors.items.IndexOf(item)].RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto));
+            ColorButtons[colors.items.IndexOf(item)].RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(DefaultMouseSprite, Vector2.zero, CursorMode.Auto));
         }
 
         // Set all events when buttons are clicked
@@ -110,11 +112,11 @@ public class UIController : MonoBehaviour
         foreach(VisualElement element in elementsWithMouseEvent)
         {
             element.RegisterCallback<MouseEnterEvent>(evt => UnityEngine.Cursor.SetCursor(mouseHoverSprite, new(16,0), CursorMode.Auto));
-            element.RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto));
+            element.RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(DefaultMouseSprite, Vector2.zero, CursorMode.Auto));
         };
 
         exportTextField.RegisterCallback<MouseEnterEvent>(evt => UnityEngine.Cursor.SetCursor(mouseWriteSprite, Vector2.zero, CursorMode.Auto));
-        exportTextField.RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto));
+        exportTextField.RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(DefaultMouseSprite, Vector2.zero, CursorMode.Auto));
     }
 
     private void OnColorSwitchButtonClicked()
@@ -152,6 +154,7 @@ public class UIController : MonoBehaviour
             colorSwitchButton.style.borderBottomColor = Color.softGreen;
             colorSwitchButton.style.borderLeftColor = Color.softGreen;
             colorSwitchButton.style.borderRightColor = Color.softGreen;
+            DefaultMouseSprite = mousePaintSprite;
         }
         else
         {
@@ -159,7 +162,9 @@ public class UIController : MonoBehaviour
             colorSwitchButton.style.borderBottomColor = Color.softRed;
             colorSwitchButton.style.borderLeftColor = Color.softRed;
             colorSwitchButton.style.borderRightColor = Color.softRed;
+            DefaultMouseSprite = null;
         }
+        UnityEngine.Cursor.SetCursor(DefaultMouseSprite, Vector2.zero, CursorMode.Auto);
     }
     private void OpenExportWindow()
     {
@@ -214,7 +219,7 @@ public class UIController : MonoBehaviour
 
     private void OnTextFieldFocusLost()
     {
-        UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        UnityEngine.Cursor.SetCursor(DefaultMouseSprite, Vector2.zero, CursorMode.Auto);
         PlayerController playerController = FindAnyObjectByType<PlayerController>();
         playerController.controls.Enable();
     }
