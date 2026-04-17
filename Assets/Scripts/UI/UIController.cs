@@ -33,6 +33,7 @@ public class UIController : MonoBehaviour
 
         DropdownWithImage legoSelector = uiDocument.rootVisualElement.Q<DropdownWithImage>("LegoSelector");
         legoSelector.mouseHoverSprite = mouseHoverSprite;
+        legoSelector.selectedIcon.tintColor = GameManager.Instance.colorSelected;
 
         // Set all legos to put in the dropdown
 
@@ -137,6 +138,8 @@ public class UIController : MonoBehaviour
     private void OnColorSwitched(int itemIndex)
     {
         GameManager.Instance.colorSelected = colors.items[itemIndex].color;
+        DropdownWithImage ls = uiDocument.rootVisualElement.Q<DropdownWithImage>("LegoSelector");
+        ls.selectedIcon.tintColor = GameManager.Instance.colorSelected;
     }
 
     public void PaintModeModified()

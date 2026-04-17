@@ -151,6 +151,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 47b33a4f92e2b0441a26a0afce170f6e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b1c347f264f0bd349ac0dc2920e7adb1, type: 2}
     - target: {fileID: 919132149155446097, guid: 47b33a4f92e2b0441a26a0afce170f6e, type: 3}
       propertyPath: m_Name
       value: LegoPlat1x1
@@ -196,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LegoBlock
   ActualLegoMaterial: {fileID: 0}
   HoveringLegoMaterial: {fileID: 0}
-  EnumLego: 3
+  EnumLego: 4
 --- !u!64 &49840805086657082
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -13,10 +13,10 @@ public partial class DropdownWithImage : BaseField<int>
         public Texture2D Icon;
     }
     public List<Item> items = new();
+    [HideInInspector] public Image selectedIcon;
+    [HideInInspector] public Label selectedLabel;
     [HideInInspector] public Texture2D mouseHoverSprite;
     private VisualElement popup;
-    private Image selectedIcon;
-    private Label selectedLabel;
     private bool isOpen;
     
 
@@ -56,6 +56,7 @@ public partial class DropdownWithImage : BaseField<int>
         value = items.IndexOf(item);
         selectedLabel.text = item.Label;
         selectedIcon.image = item.Icon;
+        
         ClosePopup();
     }
 
@@ -82,6 +83,7 @@ public partial class DropdownWithImage : BaseField<int>
             row.AddToClassList("image-dropdown-field__popup-row");
 
             Image icon = new Image();
+            icon.tintColor = GameManager.Instance.colorSelected;
             icon.AddToClassList("image-dropdown-field__popup-icon");
             if (item.Icon != null) icon.image = item.Icon;
 
