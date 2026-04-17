@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,7 +7,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Color colorSelected;
     [HideInInspector] public bool paintModeEnabled;
     [HideInInspector] public int legoSelected;
-    [HideInInspector] public Coroutine InstantiateSceneCoroutine;
     public static GameManager Instance { get; private set;}
     public Material addHoveringMaterial;
     public Material removeHoveringMaterial;
@@ -64,47 +61,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log(currentLegoList[^1]);
             currentLegoList.Remove(currentLegoList[^1]);
-        }
-    }
-
-    public IEnumerator InstantiateScene(List<LegoData> legoDataList)
-    {
-        Dictionary<GameObject, string> GoToParent = new();
-        //Scene cleanup
-        foreach(LegoEnum key in dictTypeOfLegoPlaced.Keys)
-        {
-            foreach(GameObject legoToRemove in dictTypeOfLegoPlaced[key])
-            {
-                Destroy(legoToRemove);
-            }
-        }
-
-        yield return new WaitForEndOfFrame();        
-        
-        dictTypeOfLegoPlaced = new();
-
-        //Start instantiation
-        foreach (LegoData legoData in legoDataList)
-        {
-            GameObject newLego = Instantiate(usableLegoList[(int)legoData.legoEnum]);
-            newLego.name = legoData.name;
-            newLego.transform.position = legoData.position;
-            newLego.transform.rotation = legoData.rotation;
-            newLego.GetComponent<Renderer>().material.color = legoData.color;
-            newLego.GetComponent<Collider>().enabled = true;
-            for(int i = 0; i < newLego.transform.childCount; i++)
-            {
-                newLego.transform.GetChild(i).GetComponent<Collider>().enabled = true;
-            }
-            AddNewLego(newLego, false);
-            if (legoData.parent != "|")
-            {
-                GoToParent.Add(newLego, legoData.parent);
-            }
-        }
-        foreach(GameObject go in GoToParent.Keys)
-        {
-            go.transform.parent = GameObject.Find(GoToParent[go].Split("|")[0]).transform.Find(GoToParent[go].Split("|")[1]);
         }
     }
 }

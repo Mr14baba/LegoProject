@@ -131,6 +131,8 @@ GameObject:
   - component: {fileID: 60303349}
   - component: {fileID: 60303352}
   - component: {fileID: 60303351}
+  - component: {fileID: 60303354}
+  - component: {fileID: 60303353}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -224,6 +226,30 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &60303353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60303348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d92070dfe43a604ba36d8593f9ebc42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ImportScript
+--- !u!114 &60303354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60303348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b70b3e61f678124593cb574eab353ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExportScript
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

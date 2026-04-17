@@ -13,7 +13,6 @@ public class UIController : MonoBehaviour
     [SerializeField] private UILegoAvailable legos;
     [SerializeField] private SerializableList<LegoData> SerializableLegoList;
     private string fileToLoad;
-    private readonly string sceneFolderPath  = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LegoScenes";
     public Texture2D mouseHoverSprite;
     public Texture2D mouseWriteSprite;
     void Start()
@@ -76,11 +75,11 @@ public class UIController : MonoBehaviour
 
         exportButton.clicked += OpenExportWindow;
         exportWindowCancelButton.clicked += CloseExportWindow;
-        exportWindowExportButton.clicked += ExportScene;
+        exportWindowExportButton.clicked += ExportSceneUI;
 
         importButton.clicked += OpenImportWindow;
         importWindowCancelButton.clicked += CloseImportWindow;
-        importWindowImportButton.clicked += ImportScene;
+        importWindowImportButton.clicked += ImportSceneUI;
         importWindowRefreshButton.clicked += RefreshImportFiles;
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
 
@@ -159,37 +158,6 @@ public class UIController : MonoBehaviour
             colorSwitchButton.style.borderRightColor = Color.softRed;
         }
     }
-    private string SerializeLego()
-    {
-        //Serialization of the lego pieces for exportation
-        SerializableLegoList = new();
-        foreach(LegoEnum key in GameManager.Instance.dictTypeOfLegoPlaced.Keys)
-        {
-            foreach(GameObject legoToSerialize in GameManager.Instance.dictTypeOfLegoPlaced[key])
-            {
-                if(legoToSerialize != null)
-                {
-                    LegoData legoData = new()
-                    {
-                        name = legoToSerialize.name,
-                        position = legoToSerialize.transform.position,
-                        rotation = legoToSerialize.transform.rotation,
-                        color = legoToSerialize.GetComponent<LegoBlock>().ActualLegoMaterial.color,
-                        legoEnum = legoToSerialize.GetComponent<LegoBlock>().EnumLego,
-                        //prefabName = legoToSerialize.GetComponent<MeshFilter>().sharedMesh.name,
-                        parent = legoToSerialize.transform.parent?.parent.name + "|" + legoToSerialize.transform.parent?.name
-                    };
-                    SerializableLegoList.list.Add(legoData);
-                }
-            }
-        }
-        //Writing of the .json file
-        string SerializedLegoList = JsonUtility.ToJson(SerializableLegoList);
-        SerializedLegoList = SerializedLegoList.Replace("{\"name\"",Environment.NewLine + "{\"name\"");
-        SerializedLegoList = SerializedLegoList.Replace("]",Environment.NewLine + "]");
-        return SerializedLegoList;
-    }
-
     private void OpenExportWindow()
     {
         VisualElement ExportSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ExportSceneWindow");
@@ -215,11 +183,11 @@ public class UIController : MonoBehaviour
     {
         ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("SceneListView");
 
-        List<string> itemList = Directory.GetFiles(sceneFolderPath, "*.json").ToList();
+        List<string> itemList = Directory.GetFiles(ExportScript.Instance.sceneFolderPath, "*.json").ToList();
 
         Func<VisualElement> makeItem = () => new Label();
         //We select last backslash to have the .json file and we split the .json part of the name.
-        Action<VisualElement, int> bindItem = (e, i) => ((Label)e).text = itemList[i].Substring(itemList[i].LastIndexOf("\\") + 1).Split(".")[0];
+        Action<VisualElement, int > bindItem = (e, i) => ((Label)e).text = itemList[i].Substring(itemList[i].LastIndexOf("\\") + 1).Split(".")[0];
 
         sceneToImportListView.makeItem = makeItem;
         sceneToImportListView.bindItem = bindItem;
@@ -248,33 +216,19 @@ public class UIController : MonoBehaviour
         playerController.controls.Enable();
     }
 
-    private void ExportScene()
+    private void ExportSceneUI()
     {
-        TextField exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField");
+        string exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField").value;
 
-        if(!Directory.Exists(sceneFolderPath))
-        {
-            Directory.CreateDirectory(sceneFolderPath);
-        }
-
-        string fileName = exportTextField.value;
-        if (string.IsNullOrWhiteSpace(fileName))
-        {
-            fileName = "newScene";
-        }
-        File.WriteAllText(sceneFolderPath + "\\" + fileName +".json", SerializeLego());
+        ExportScript.Instance.ExportScene(exportTextField, SerializableLegoList);
         CloseExportWindow();
     }
 
-    private void ImportScene()
+    private void ImportSceneUI()
     {
         if(fileToLoad != null)
         {
-            string SerializedLegoList = File.ReadAllText(fileToLoad);
-            SerializedLegoList = SerializedLegoList.Replace(Environment.NewLine, "");
-            SerializableList<LegoData> legoList = JsonUtility.FromJson<SerializableList<LegoData>>(SerializedLegoList);
-            GameManager.Instance.InstantiateSceneCoroutine = StartCoroutine(GameManager.Instance.InstantiateScene(legoList.list));
-            fileToLoad = null;
+            ImportScript.Instance.ImportScene(fileToLoad);
             CloseImportWindow();
         }
     }

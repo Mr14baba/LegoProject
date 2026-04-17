@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private int actualLegoClip;
 
     public PlayerInputs controls;
+    
     [Header("User Parameters")]
     [Tooltip("Speed of the user.")]
     public float speed = 10;
