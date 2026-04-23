@@ -24,6 +24,9 @@ public class UIController : MonoBehaviour
         TextField exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField");
         Button exportWindowExportButton = uiDocument.rootVisualElement.Q<Button>("ExportExportButton");
         Button exportWindowCancelButton = uiDocument.rootVisualElement.Q<Button>("ExportCancelButton");
+        VisualElement warningElement = uiDocument.rootVisualElement.Q<VisualElement>("WarningScreen");
+        Button warningCancelButton = uiDocument.rootVisualElement.Q<Button>("WarningCancelButton");
+        Button warningConfirmButton = uiDocument.rootVisualElement.Q<Button>("WarningConfirmButton");
 
         Button importButton = uiDocument.rootVisualElement.Q<Button>("ImportButton");
         Button importWindowImportButton = uiDocument.rootVisualElement.Q<Button>("ImportImportButton");
@@ -78,11 +81,12 @@ public class UIController : MonoBehaviour
 
         exportButton.clicked += OpenExportWindow;
         exportWindowCancelButton.clicked += CloseExportWindow;
-        exportWindowExportButton.clicked += ExportSceneUI;
+        exportWindowExportButton.clicked += ShowWarning;
+        warningCancelButton.clicked += delegate {warningElement.visible = false;};
 
         importButton.clicked += OpenImportWindow;
         importWindowCancelButton.clicked += CloseImportWindow;
-        importWindowImportButton.clicked += ImportSceneUI;
+        importWindowImportButton.clicked += ShowWarning;
         importWindowRefreshButton.clicked += RefreshImportFiles;
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
 
@@ -107,6 +111,8 @@ public class UIController : MonoBehaviour
             importWindowRefreshButton,
             importWindowCancelButton,
             legoSelector,
+            warningCancelButton,
+            warningConfirmButton,
         };
 
         foreach(VisualElement element in elementsWithMouseEvent)
@@ -238,6 +244,26 @@ public class UIController : MonoBehaviour
         {
             ImportScript.Instance.ImportScene(fileToLoad);
             CloseImportWindow();
+        }
+    }
+
+    private void ShowWarning()
+    {
+        VisualElement warningElement = uiDocument.rootVisualElement.Q<VisualElement>("WarningScreen");
+        VisualElement exportSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ExportSceneWindow"); 
+        Button warningConfirmButton = uiDocument.rootVisualElement.Q<Button>("WarningConfirmButton");
+
+        warningElement.visible = true;
+        warningConfirmButton.clickable = null;
+        warningConfirmButton.clicked += delegate{warningElement.visible = false;};
+
+        if (exportSceneWindow.visible)
+        {
+            warningConfirmButton.clicked += ExportSceneUI;
+        }
+        else
+        {
+            warningConfirmButton.clicked += ImportSceneUI;
         }
     }
 }
