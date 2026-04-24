@@ -20,15 +20,21 @@ public class UIController : MonoBehaviour
     void Start()
     {
         Button colorSwitchButton = uiDocument.rootVisualElement.Q<Button>("ColorSwitchButton");
-        Button exportButton = uiDocument.rootVisualElement.Q<Button>("ExportButton");
         TextField exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField");
-        Button exportWindowExportButton = uiDocument.rootVisualElement.Q<Button>("ExportExportButton");
-        Button exportWindowCancelButton = uiDocument.rootVisualElement.Q<Button>("ExportCancelButton");
-        VisualElement warningElement = uiDocument.rootVisualElement.Q<VisualElement>("WarningScreen");
+        Button saveAsWindowSaveButton = uiDocument.rootVisualElement.Q<Button>("SaveAsSaveButton");
+        Button saveAsWindowCancelButton = uiDocument.rootVisualElement.Q<Button>("SaveAsCancelButton");
+        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
+        VisualElement warningScreen = uiDocument.rootVisualElement.Q<VisualElement>("WarningScreen");
         Button warningCancelButton = uiDocument.rootVisualElement.Q<Button>("WarningCancelButton");
         Button warningConfirmButton = uiDocument.rootVisualElement.Q<Button>("WarningConfirmButton");
-
-        Button importButton = uiDocument.rootVisualElement.Q<Button>("ImportButton");
+        Button fileOptionsButton = uiDocument.rootVisualElement.Q<Button>("FileOptionsButton");
+        VisualElement fileOptionsWindow = uiDocument.rootVisualElement.Q<VisualElement>("FileOptionsWindow");
+        Button fileOptionsNew = uiDocument.rootVisualElement.Q<Button>("FileOptionsNew");
+        Button fileOptionsOpen = uiDocument.rootVisualElement.Q<Button>("FileOptionsOpen");
+        Button fileOptionsImport = uiDocument.rootVisualElement.Q<Button>("FileOptionsImport");
+        Button fileOptionsExport = uiDocument.rootVisualElement.Q<Button>("FileOptionsExport");
+        Button fileOptionsSave = uiDocument.rootVisualElement.Q<Button>("FileOptionsSave");
+        Button fileOptionsSaveAs = uiDocument.rootVisualElement.Q<Button>("FileOptionsSaveAs");
         Button importWindowImportButton = uiDocument.rootVisualElement.Q<Button>("ImportImportButton");
         Button importWindowRefreshButton = uiDocument.rootVisualElement.Q<Button>("ImportRefreshButton");
         Button importWindowCancelButton = uiDocument.rootVisualElement.Q<Button>("ImportCancelButton");
@@ -79,14 +85,22 @@ public class UIController : MonoBehaviour
 
         colorSwitchButton.clicked += OnColorSwitchButtonClicked;
 
-        exportButton.clicked += OpenExportWindow;
-        exportWindowCancelButton.clicked += CloseExportWindow;
-        exportWindowExportButton.clicked += ShowWarning;
-        warningCancelButton.clicked += delegate {warningElement.visible = false;};
+        saveAsWindowCancelButton.clicked += CloseSaveWindow;
+        saveAsWindowSaveButton.clicked += SaveAsSceneUI;
+        warningCancelButton.clicked += delegate {
+            popupBackground.visible = false;
+            warningScreen.style.display = DisplayStyle.None;
+            };
+        fileOptionsButton.clicked += delegate {fileOptionsWindow.visible = !fileOptionsWindow.visible;};
+        fileOptionsNew.clicked += delegate {ShowWarning(NewSceneUI);};
+        fileOptionsOpen.clicked += delegate {ShowWarning(OpenOpenWindow);};
+        //fileOptionsImport.clicked += ;
+        //fileOptionsExport.clicked += ;
+        fileOptionsSave.clicked += SaveScene;
+        fileOptionsSaveAs.clicked += OpenSaveWindow;
 
-        importButton.clicked += OpenImportWindow;
-        importWindowCancelButton.clicked += CloseImportWindow;
-        importWindowImportButton.clicked += ShowWarning;
+        importWindowCancelButton.clicked += CloseOpenWindow;
+        importWindowImportButton.clicked += OpenSceneUI;
         importWindowRefreshButton.clicked += RefreshImportFiles;
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
 
@@ -95,24 +109,29 @@ public class UIController : MonoBehaviour
 
         // Close the export and import window
 
-        CloseExportWindow();
-        CloseImportWindow();
+        CloseSaveWindow();
+        CloseOpenWindow();
 
         // Set all callbacks to update mouse sprite
 
         VisualElement[] elementsWithMouseEvent = 
         {
             colorSwitchButton,
-            exportButton,
-            exportWindowExportButton,
-            exportWindowCancelButton,
-            importButton,
+            saveAsWindowSaveButton,
+            saveAsWindowCancelButton,
             importWindowImportButton,
             importWindowRefreshButton,
             importWindowCancelButton,
             legoSelector,
             warningCancelButton,
             warningConfirmButton,
+            fileOptionsButton,
+            fileOptionsNew,
+            fileOptionsOpen,
+            fileOptionsImport,
+            fileOptionsExport,
+            fileOptionsSave,
+            fileOptionsSaveAs,
         };
 
         foreach(VisualElement element in elementsWithMouseEvent)
@@ -172,32 +191,40 @@ public class UIController : MonoBehaviour
         }
         UnityEngine.Cursor.SetCursor(DefaultMouseSprite, Vector2.zero, CursorMode.Auto);
     }
-    private void OpenExportWindow()
+    private void OpenSaveWindow()
     {
-        VisualElement ExportSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ExportSceneWindow");
-        ExportSceneWindow.visible = !ExportSceneWindow.visible;
-        CloseImportWindow();
+        VisualElement SaveSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("SaveSceneWindow");
+        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
+
+        SaveSceneWindow.style.display = DisplayStyle.Flex;
+        popupBackground.visible = true;
     }
 
-    private void CloseExportWindow()
+    private void CloseSaveWindow()
     {
-        VisualElement ExportSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ExportSceneWindow");
-        ExportSceneWindow.visible = false;
+        VisualElement SaveSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("SaveSceneWindow");
+        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
+
+        SaveSceneWindow.style.display = DisplayStyle.None;
+        popupBackground.visible = false;
     }
 
-    private void OpenImportWindow()
+    private void OpenOpenWindow()
     {
-        VisualElement ImportSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ImportSceneWindow");
-        ImportSceneWindow.visible = !ImportSceneWindow.visible;
+        
+        VisualElement OpenSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("OpenSceneWindow");
+        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
+        OpenSceneWindow.style.display = DisplayStyle.Flex;
+        popupBackground.visible = true;
+
         RefreshImportFiles();
-        CloseExportWindow();
     }
 
     private void RefreshImportFiles()
     {
         ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("SceneListView");
 
-        List<string> itemList = Directory.GetFiles(ExportScript.Instance.sceneFolderPath, "*.json").ToList();
+        List<string> itemList = Directory.GetFiles(SaveScript.Instance.sceneFolderPath, "*.json").ToList();
 
         Func<VisualElement> makeItem = () => new Label();
         //We select last backslash to have the .json file and we split the .json part of the name.
@@ -209,10 +236,13 @@ public class UIController : MonoBehaviour
         fileToLoad = null;
     }
 
-    private void CloseImportWindow()
+    private void CloseOpenWindow()
     {
-        VisualElement ImportSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ImportSceneWindow");
-        ImportSceneWindow.visible = false;
+        VisualElement OpenSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("OpenSceneWindow");
+        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
+        
+        OpenSceneWindow.style.display = DisplayStyle.None;
+        popupBackground.visible = false;
         fileToLoad = null;
     }
 
@@ -230,40 +260,74 @@ public class UIController : MonoBehaviour
         playerController.controls.Enable();
     }
 
-    private void ExportSceneUI()
+    private void NewSceneUI()
     {
-        string exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField").value;
+        var dictTypeOfLegoPlaced = GameManager.Instance.dictTypeOfLegoPlaced;
+        Label fileNameLabel = uiDocument.rootVisualElement.Q<Label>("FileNameLabel");
 
-        ExportScript.Instance.ExportScene(exportTextField, SerializableLegoList);
-        CloseExportWindow();
-    }
-
-    private void ImportSceneUI()
-    {
-        if(fileToLoad != null)
+        foreach(LegoEnum key in dictTypeOfLegoPlaced.Keys)
         {
-            ImportScript.Instance.ImportScene(fileToLoad);
-            CloseImportWindow();
+            foreach(GameObject legoToRemove in dictTypeOfLegoPlaced[key])
+            {
+                Destroy(legoToRemove);
+            }
         }
+
+        GameManager.Instance.actualFileName = null;
+        fileNameLabel.text = "newScene";
     }
 
-    private void ShowWarning()
+    private void SaveScene()
     {
-        VisualElement warningElement = uiDocument.rootVisualElement.Q<VisualElement>("WarningScreen");
-        VisualElement exportSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ExportSceneWindow"); 
-        Button warningConfirmButton = uiDocument.rootVisualElement.Q<Button>("WarningConfirmButton");
-
-        warningElement.visible = true;
-        warningConfirmButton.clickable = null;
-        warningConfirmButton.clicked += delegate{warningElement.visible = false;};
-
-        if (exportSceneWindow.visible)
+        if (GameManager.Instance.actualFileName == null)
         {
-            warningConfirmButton.clicked += ExportSceneUI;
+            OpenSaveWindow();
         }
         else
         {
-            warningConfirmButton.clicked += ImportSceneUI;
+            SaveScript.Instance.ExportScene(SerializableLegoList);
         }
+        
+    }
+
+    private void SaveAsSceneUI()
+    {
+        Label fileNameLabel = uiDocument.rootVisualElement.Q<Label>("FileNameLabel");
+
+        string exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField").value;
+        GameManager.Instance.actualFileName = exportTextField;
+        SaveScript.Instance.ExportScene(SerializableLegoList);
+        fileNameLabel.text = exportTextField + ".json";
+        CloseSaveWindow();
+    }
+
+    private void OpenSceneUI()
+    {
+        Label fileNameLabel = uiDocument.rootVisualElement.Q<Label>("FileNameLabel");
+        if(fileToLoad != null)
+        {
+            OpenScript.Instance.ImportScene(fileToLoad);
+            fileNameLabel.text = fileToLoad.Substring(fileToLoad.LastIndexOf("\\") + 1);
+            GameManager.Instance.actualFileName = fileNameLabel.text.Split(".")[0];
+            CloseOpenWindow();
+        }
+    }
+
+    private void ShowWarning(Action functionToExecute, string warningTextToShow = "All unsaved progress will be lost !")
+    {
+        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
+        VisualElement warningScreen = uiDocument.rootVisualElement.Q<VisualElement>("WarningScreen");
+        Label warningLabel = uiDocument.rootVisualElement.Q<Label>("WarningLabel");
+        Button warningConfirmButton = uiDocument.rootVisualElement.Q<Button>("WarningConfirmButton");
+        warningLabel.text = warningTextToShow;
+        warningScreen.style.display = DisplayStyle.Flex;
+        popupBackground.visible = true;
+
+        warningConfirmButton.clickable = null;
+        warningConfirmButton.clicked += delegate {
+            popupBackground.visible = false;
+            warningScreen.style.display = DisplayStyle.None; 
+            };
+        warningConfirmButton.clicked += functionToExecute;
     }
 }

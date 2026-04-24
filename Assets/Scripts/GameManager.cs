@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool paintModeEnabled;
     [HideInInspector] public int legoSelected;
     public static GameManager Instance { get; private set;}
+    public string actualFileName;
     public Material addHoveringMaterial;
     public Material removeHoveringMaterial;
     public GameObject[] usableLegoList;

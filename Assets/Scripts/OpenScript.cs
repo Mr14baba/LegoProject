@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class ImportScript : MonoBehaviour
+public class OpenScript : MonoBehaviour
 {
-    public static ImportScript Instance {get; private set;}
+    public static OpenScript Instance {get; private set;}
     [HideInInspector] public Coroutine InstantiateSceneCoroutine;
 
     private void Awake()

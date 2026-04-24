@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using UnityEngine;
 
-public class ExportScript : MonoBehaviour
+public class SaveScript : MonoBehaviour
 {
-    public static ExportScript Instance {get; private set;}
+    public static SaveScript Instance {get; private set;}
     
     //Location of save files
     public readonly string sceneFolderPath  = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\LegoScenes";
@@ -52,18 +52,18 @@ public class ExportScript : MonoBehaviour
         return SerializedLegoList;
     }
 
-    public void ExportScene(string fileName, SerializableList<LegoData> serializableLegoList)
+    public void ExportScene(SerializableList<LegoData> serializableLegoList)
     {
         if(!Directory.Exists(sceneFolderPath))
         {
             Directory.CreateDirectory(sceneFolderPath);
         }
 
-        if (string.IsNullOrWhiteSpace(fileName))
+        if (string.IsNullOrWhiteSpace(GameManager.Instance.actualFileName))
         {
-            fileName = "newScene";
+            GameManager.Instance.actualFileName = "newScene";
         }
-        File.WriteAllText(sceneFolderPath + "\\" + fileName +".json", SerializeLego(serializableLegoList));
+        File.WriteAllText(sceneFolderPath + "\\" + GameManager.Instance.actualFileName +".json", SerializeLego(serializableLegoList));
     }
 
 }
