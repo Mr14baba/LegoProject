@@ -42,19 +42,16 @@ public class UIController : MonoBehaviour
 
         List<RadioButton> ColorButtons = uiDocument.rootVisualElement.Q<VisualElement>("ColorButtonGroup").Query<RadioButton>().ToList();
 
-        DropdownWithImage legoSelector = uiDocument.rootVisualElement.Q<DropdownWithImage>("LegoSelector");
-        legoSelector.mouseHoverSprite = mouseHoverSprite;
-        legoSelector.selectedIcon.tintColor = GameManager.Instance.colorSelected;
+        List<LegoBlockButton> LegoSelectors = uiDocument.rootVisualElement.Q<ToggleButtonGroup>("ButtonGroupLegoSelected").Query<LegoBlockButton>().ToList();
 
-        // Set all legos to put in the dropdown
-
-        foreach(var item in legos.items)
+        foreach (LegoBlockButton button in LegoSelectors)
         {
-            legoSelector.AddItem(new DropdownWithImage.Item{ Label = item.label, Icon = item.icon});
+            button.Q<Image>("").tintColor = GameManager.Instance.colorSelected;
+            button.clicked += delegate {OnLegoSwitched(button.legoIndex);};
+
+            button.RegisterCallback<MouseEnterEvent>(evt => UnityEngine.Cursor.SetCursor(mouseHoverSprite, new(16,0), CursorMode.Auto));
+            button.RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(DefaultMouseSprite, Vector2.zero, CursorMode.Auto));
         }
-        legoSelector.SelectItem(legoSelector.items[0]);
-        
-        legoSelector.RegisterValueChangedCallback(evt => OnLegoSwitched(evt.newValue));
 
         // Set all colors to put in the radio buttons
 
@@ -86,31 +83,26 @@ public class UIController : MonoBehaviour
         colorSwitchButton.clicked += OnColorSwitchButtonClicked;
 
         saveAsWindowCancelButton.clicked += CloseSaveWindow;
-        saveAsWindowSaveButton.clicked += SaveAsSceneUI;
+        saveAsWindowSaveButton.clicked += SaveAsScene;
         warningCancelButton.clicked += delegate {
             popupBackground.visible = false;
             warningScreen.style.display = DisplayStyle.None;
             };
         fileOptionsButton.clicked += delegate {fileOptionsWindow.visible = !fileOptionsWindow.visible;};
-        fileOptionsNew.clicked += delegate {ShowWarning(NewSceneUI);};
-        fileOptionsOpen.clicked += delegate {ShowWarning(OpenOpenWindow);};
+        fileOptionsNew.clicked += delegate {ShowWarning(NewScene); fileOptionsWindow.visible = false;};
+        fileOptionsOpen.clicked += delegate {ShowWarning(OpenOpenWindow); fileOptionsWindow.visible = false;};
         //fileOptionsImport.clicked += ;
         //fileOptionsExport.clicked += ;
-        fileOptionsSave.clicked += SaveScene;
-        fileOptionsSaveAs.clicked += OpenSaveWindow;
+        fileOptionsSave.clicked += delegate {SaveScene(); fileOptionsWindow.visible = false;};
+        fileOptionsSaveAs.clicked += delegate {OpenSaveWindow(); fileOptionsWindow.visible = false;};
 
         importWindowCancelButton.clicked += CloseOpenWindow;
-        importWindowImportButton.clicked += OpenSceneUI;
+        importWindowImportButton.clicked += OpenScene;
         importWindowRefreshButton.clicked += RefreshImportFiles;
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
 
         exportTextField.RegisterCallback<FocusInEvent>(evt => OnTextFieldFocusGained());
         exportTextField.RegisterCallback<FocusOutEvent>(evt => OnTextFieldFocusLost());
-
-        // Close the export and import window
-
-        CloseSaveWindow();
-        CloseOpenWindow();
 
         // Set all callbacks to update mouse sprite
 
@@ -122,7 +114,6 @@ public class UIController : MonoBehaviour
             importWindowImportButton,
             importWindowRefreshButton,
             importWindowCancelButton,
-            legoSelector,
             warningCancelButton,
             warningConfirmButton,
             fileOptionsButton,
@@ -157,16 +148,23 @@ public class UIController : MonoBehaviour
 
         if (setItemInUI)
         {
-            DropdownWithImage ls = uiDocument.rootVisualElement.Q<DropdownWithImage>("LegoSelector");
-            ls.SelectItem(ls.items[itemIndex]);
+            List<LegoBlockButton> LegoSelectors = uiDocument.rootVisualElement.Q<ToggleButtonGroup>("ButtonGroupLegoSelected").Query<LegoBlockButton>().ToList();
+            Button legoButton = LegoSelectors.Find(item => item.legoIndex == itemIndex);
+            
+            using var e = new NavigationSubmitEvent() {target = legoButton};
+            LegoSelectors.Find(item => item.legoIndex == itemIndex).SendEvent(e);
         }
     }
 
     private void OnColorSwitched(int itemIndex)
     {
         GameManager.Instance.colorSelected = colors.items[itemIndex].color;
-        DropdownWithImage ls = uiDocument.rootVisualElement.Q<DropdownWithImage>("LegoSelector");
-        ls.selectedIcon.tintColor = GameManager.Instance.colorSelected;
+
+        List<LegoBlockButton> LegoSelectors = uiDocument.rootVisualElement.Q<ToggleButtonGroup>("ButtonGroupLegoSelected").Query<LegoBlockButton>().ToList();
+            foreach(LegoBlockButton button in LegoSelectors)
+            {
+                button.Q<Image>("").tintColor = colors.items[itemIndex].color;
+            }
     }
 
     public void PaintModeModified()
@@ -260,7 +258,7 @@ public class UIController : MonoBehaviour
         playerController.controls.Enable();
     }
 
-    private void NewSceneUI()
+    private void NewScene()
     {
         var dictTypeOfLegoPlaced = GameManager.Instance.dictTypeOfLegoPlaced;
         Label fileNameLabel = uiDocument.rootVisualElement.Q<Label>("FileNameLabel");
@@ -277,9 +275,22 @@ public class UIController : MonoBehaviour
         fileNameLabel.text = "newScene";
     }
 
+        private void OpenScene()
+    {
+        Label fileNameLabel = uiDocument.rootVisualElement.Q<Label>("FileNameLabel");
+
+        if(fileToLoad != null)
+        {
+            OpenScript.Instance.ImportScene(fileToLoad);
+            fileNameLabel.text = fileToLoad.Substring(fileToLoad.LastIndexOf("\\") + 1);
+            GameManager.Instance.actualFileName = fileNameLabel.text.Split(".")[0];
+            CloseOpenWindow();
+        }
+    }
+
     private void SaveScene()
     {
-        if (GameManager.Instance.actualFileName == null)
+        if (GameManager.Instance.actualFileName == "")
         {
             OpenSaveWindow();
         }
@@ -290,27 +301,17 @@ public class UIController : MonoBehaviour
         
     }
 
-    private void SaveAsSceneUI()
+    private void SaveAsScene()
     {
         Label fileNameLabel = uiDocument.rootVisualElement.Q<Label>("FileNameLabel");
+        VisualElement fileOptionsWindow = uiDocument.rootVisualElement.Q<VisualElement>("FileOptionsWindow");
 
+        fileOptionsWindow.visible = false;
         string exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField").value;
         GameManager.Instance.actualFileName = exportTextField;
         SaveScript.Instance.ExportScene(SerializableLegoList);
         fileNameLabel.text = exportTextField + ".json";
         CloseSaveWindow();
-    }
-
-    private void OpenSceneUI()
-    {
-        Label fileNameLabel = uiDocument.rootVisualElement.Q<Label>("FileNameLabel");
-        if(fileToLoad != null)
-        {
-            OpenScript.Instance.ImportScene(fileToLoad);
-            fileNameLabel.text = fileToLoad.Substring(fileToLoad.LastIndexOf("\\") + 1);
-            GameManager.Instance.actualFileName = fileNameLabel.text.Split(".")[0];
-            CloseOpenWindow();
-        }
     }
 
     private void ShowWarning(Action functionToExecute, string warningTextToShow = "All unsaved progress will be lost !")
@@ -326,7 +327,7 @@ public class UIController : MonoBehaviour
         warningConfirmButton.clickable = null;
         warningConfirmButton.clicked += delegate {
             popupBackground.visible = false;
-            warningScreen.style.display = DisplayStyle.None; 
+            warningScreen.style.display = DisplayStyle.None;
             };
         warningConfirmButton.clicked += functionToExecute;
     }

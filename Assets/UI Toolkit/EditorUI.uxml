@@ -1,66 +1,80 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Styles.uss?fileID=7433441132597879392&amp;guid=47cf3824f96def04ebc5ce2829239e3d&amp;type=3#Styles"/>
-    <ui:VisualElement name="ToolbarUI" style="flex-direction: row; width: 100%; height: 90px; background-color: rgb(47, 47, 47); position: absolute; top: -1px; right: 0; left: 0; bottom: auto;">
-        <ui:VisualElement name="Spacer" style="width: 25px;"/>
-        <ui:VisualElement name="LeftUI" style="flex-direction: row;">
-            <DropdownWithImage name="LegoSelector" arrow-image="project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=-1304905567622442630&amp;guid=1fd29a69d0b44f944b25557794be1e65&amp;type=3#arrow-down@2x" style="align-self: center; background-color: rgb(178, 178, 178); width: 250px; height: 74px; overflow: visible; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;"/>
-            <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 25px;"/>
-            <ui:VisualElement name="ColorButtonGroup" style="justify-content: space-evenly;">
-                <ui:VisualElement name="" style="flex-direction: row;">
-                    <ui:RadioButton label="" value="true" name="" class="colorSelectorRadioButton" style="width: 25px; height: 25px;"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+    <ui:VisualElement name="UpperUI" style="align-self: stretch; flex-direction: column-reverse; background-color: rgb(50, 50, 50);">
+        <ui:VisualElement name="ToolbarUI" style="flex-direction: row; width: 100%; height: 90px; background-color: rgb(50, 50, 50); justify-content: space-between;">
+            <ui:VisualElement name="LeftUI" style="flex-direction: row; flex-grow: 1;">
+                <ui:VisualElement name="Spacer" style="width: 0;"/>
+                <ui:ScrollView mode="Horizontal" style="flex-direction: column; align-self: flex-start; width: 90%;">
+                    <ui:ToggleButtonGroup label="" value="0000001" is-multiple-selection="false" allow-empty-selection="false" name="ButtonGroupLegoSelected" focusable="true" style="align-items: stretch; align-self: center;">
+                        <LegoBlockButton lego-available="project://database/Assets/UI%20Toolkit/LegoAvailable.asset?fileID=11400000&amp;guid=aee108ad2c5881b4eb8209630b83ab9f&amp;type=2#LegoAvailable" enabled="true" style="margin-top: 0; margin-bottom: 0;"/>
+                        <LegoBlockButton lego-available="project://database/Assets/UI%20Toolkit/LegoAvailable.asset?fileID=11400000&amp;guid=aee108ad2c5881b4eb8209630b83ab9f&amp;type=2#LegoAvailable" lego-index="1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                        <LegoBlockButton lego-available="project://database/Assets/UI%20Toolkit/LegoAvailable.asset?fileID=11400000&amp;guid=aee108ad2c5881b4eb8209630b83ab9f&amp;type=2#LegoAvailable" lego-index="2" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                        <LegoBlockButton lego-available="project://database/Assets/UI%20Toolkit/LegoAvailable.asset?fileID=11400000&amp;guid=aee108ad2c5881b4eb8209630b83ab9f&amp;type=2#LegoAvailable" lego-index="3" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                        <LegoBlockButton lego-available="project://database/Assets/UI%20Toolkit/LegoAvailable.asset?fileID=11400000&amp;guid=aee108ad2c5881b4eb8209630b83ab9f&amp;type=2#LegoAvailable" lego-index="4" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                        <LegoBlockButton lego-available="project://database/Assets/UI%20Toolkit/LegoAvailable.asset?fileID=11400000&amp;guid=aee108ad2c5881b4eb8209630b83ab9f&amp;type=2#LegoAvailable" lego-index="5" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                        <LegoBlockButton lego-available="project://database/Assets/UI%20Toolkit/LegoAvailable.asset?fileID=11400000&amp;guid=aee108ad2c5881b4eb8209630b83ab9f&amp;type=2#LegoAvailable" lego-index="6" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                    </ui:ToggleButtonGroup>
+                </ui:ScrollView>
+            </ui:VisualElement>
+            <ui:VisualElement name="RightUI" style="flex-grow: 0; flex-direction: row;">
+                <ui:VisualElement name="ColorButtonGroup" style="justify-content: space-evenly;">
+                    <ui:VisualElement name="" style="flex-direction: row;">
+                        <ui:RadioButton label="" value="true" name="" class="colorSelectorRadioButton" style="width: 25px; height: 25px;"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="" style="flex-direction: row;">
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                        <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                    </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="" style="flex-direction: row;">
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
-                    <ui:RadioButton label="" class="colorSelectorRadioButton"/>
+                <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 20px;"/>
+                <ui:Button text="Paint&#10;Mode" name="ColorSwitchButton" style="background-color: rgb(100, 100, 100); transition-duration: 0.1s; margin-right: 4px; margin-left: 4px; padding-left: 10px; padding-top: 5px; padding-right: 10px; padding-bottom: 5px; margin-top: 2px; color: rgb(255, 255, 255); font-size: 20px; border-bottom-width: 3px; border-left-width: 3px; border-top-width: 3px; border-right-width: 3px; border-left-color: rgb(220, 49, 50); border-right-color: rgb(220, 49, 50); border-top-color: rgb(220, 49, 50); border-bottom-color: rgb(220, 49, 50); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; transition-timing-function: linear; margin-bottom: 2px; aspect-ratio: 1; align-self: center;"/>
+                <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 25px;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="FileToolbar" style="height: 27px; background-color: rgb(50, 50, 50); flex-direction: row; border-bottom-width: 2px; border-bottom-color: rgb(150, 150, 150);">
+            <ui:VisualElement name="FileOptions">
+                <ui:Button text="File Options" name="FileOptionsButton" style="margin-left: 0; margin-right: 0; padding-top: 5px; padding-bottom: 5px; padding-left: 6px; padding-right: 6px; align-self: flex-start; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; margin-top: 0; margin-bottom: 0; background-color: rgb(150, 150, 150);"/>
+                <ui:VisualElement name="FileOptionsWindow" style="visibility: hidden; background-color: rgb(150, 150, 150); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; width: 125px; position: absolute; top: 25px;">
+                    <ui:Button text="New" name="FileOptionsNew" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
+                        <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/SaveAsLogo.png?fileID=2800000&amp;guid=4fdaa9970bde78048976c88712d53d67&amp;type=3#SaveAsLogo" style="background-color: rgb(100, 100, 100); margin-top: 2px; margin-bottom: 2px; width: 20px; height: 20px; padding-right: 0; margin-right: 5px; align-self: flex-end;"/>
+                    </ui:Button>
+                    <ui:Button text="Open" name="FileOptionsOpen" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1; flex-shrink: 1;">
+                        <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/ExportLogo.png?fileID=2800000&amp;guid=b689a7b99a8d72a4ab6f532069785817&amp;type=3#ExportLogo" style="background-color: rgb(100, 100, 100); margin-top: 2px; padding-bottom: 0; margin-bottom: 2px; align-self: flex-end;"/>
+                    </ui:Button>
+                    <ui:Button text="Import" name="FileOptionsImport" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
+                        <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/ImportLogo.png?fileID=2800000&amp;guid=6a54a3185dfd59e48bc5443d7602565c&amp;type=3#ImportLogo" style="background-color: rgb(100, 100, 100); margin-top: 2px; margin-bottom: 2px; align-self: flex-end;"/>
+                    </ui:Button>
+                    <ui:Button text="Export" name="FileOptionsExport" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
+                        <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/ExportLogo.png?fileID=2800000&amp;guid=b689a7b99a8d72a4ab6f532069785817&amp;type=3#ExportLogo" style="background-color: rgb(100, 100, 100); margin-top: 2px; margin-bottom: 2px; align-self: flex-end;"/>
+                    </ui:Button>
+                    <ui:Button text="Save" name="FileOptionsSave" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
+                        <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/SaveLogo.png?fileID=2800000&amp;guid=8cf65e2246cd9a64cb29814b047f7944&amp;type=3#SaveLogo" style="background-color: rgb(100, 100, 100); width: 20px; height: 20px; padding-right: 0; margin-right: 6px; margin-top: 2px; margin-bottom: 2px; align-self: flex-end;"/>
+                    </ui:Button>
+                    <ui:Button text="Save as" name="FileOptionsSaveAs" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
+                        <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/SaveAsLogo.png?fileID=2800000&amp;guid=4fdaa9970bde78048976c88712d53d67&amp;type=3#SaveAsLogo" style="background-color: rgb(100, 100, 100); margin-bottom: 2px; margin-top: 2px; width: 20px; height: 20px; margin-right: 5px; align-self: flex-end;"/>
+                    </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 20px;"/>
-            <ui:Button text="Paint&#10;Mode" name="ColorSwitchButton" style="background-color: rgb(100, 100, 100); transition-duration: 0.1s; margin-right: 4px; margin-left: 4px; padding-left: 10px; padding-top: 5px; padding-right: 10px; padding-bottom: 5px; margin-top: 2px; color: rgb(255, 255, 255); font-size: 20px; border-bottom-width: 3px; border-left-width: 3px; border-top-width: 3px; border-right-width: 3px; border-left-color: rgb(220, 49, 50); border-right-color: rgb(220, 49, 50); border-top-color: rgb(220, 49, 50); border-bottom-color: rgb(220, 49, 50); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; transition-timing-function: linear; margin-bottom: 2px; aspect-ratio: 1;"/>
-            <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 50px;"/>
+            <ui:VisualElement name="Spacer" style="background-color: rgba(0, 0, 0, 0); width: 5px;"/>
+            <ui:VisualElement name="FileNameHolder" style="flex-direction: row; color: rgb(0, 0, 0); align-self: center;">
+                <ui:Label text="File name :" style="margin-right: 0; margin-top: 0; color: rgb(255, 255, 255); margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
+                <ui:Label text="NewScene.json" name="FileNameLabel" style="margin-top: 0; margin-left: 0; padding-left: 2px; margin-right: 0; padding-right: 0; color: rgb(255, 255, 255); margin-bottom: 0; padding-top: 0; padding-bottom: 0;"/>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="ControlsPlaceholder" style="flex-grow: 0; align-items: auto; justify-content: flex-start; align-self: auto; align-content: auto; top: auto; left: auto; bottom: 0; flex-shrink: 0; flex-basis: auto; position: absolute; right: 0;">
         <ui:Label text="Controls :&#10;Movement = WASD&#10;Camera movement = Middle Click&#10;Zoom = Mouse scroll&#10;Place lego = Left Click&#10;Rotate lego = R&#10;Remove lego = Right Click&#10;Switch lego = 1 &amp; 3&#10;Switch bottom clip = F&#10;Enable paint mode = T&#10;" name="ControlsLabel" style="-unity-text-align: upper-left; background-color: rgba(0, 0, 0, 0.39); color: rgb(253, 220, 77); padding-left: 5px; padding-right: 5px; align-self: flex-end; align-content: auto; justify-content: flex-start; align-items: auto;"/>
     </ui:VisualElement>
-    <ui:VisualElement name="FileOptions" style="position: absolute; top: 90px; flex-direction: row;">
-        <ui:VisualElement name="" style="position: relative;">
-            <ui:Button text="File Options" name="FileOptionsButton" style="margin-left: 0; margin-right: 0; padding-top: 5px; padding-bottom: 5px; padding-left: 6px; padding-right: 6px; align-self: flex-start;"/>
-            <ui:VisualElement name="FileOptionsWindow" style="visibility: visible; background-color: rgb(150, 150, 150); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; width: 125px;">
-                <ui:Button text="New" name="FileOptionsNew" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
-                    <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/SaveAsLogo.png?fileID=2800000&amp;guid=4fdaa9970bde78048976c88712d53d67&amp;type=3#SaveAsLogo" style="background-color: rgb(100, 100, 100); margin-top: 2px; margin-bottom: 2px; width: 20px; height: 20px; padding-right: 0; margin-right: 5px; align-self: flex-end;"/>
-                </ui:Button>
-                <ui:Button text="Open" name="FileOptionsOpen" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1; flex-shrink: 1;">
-                    <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/ExportLogo.png?fileID=2800000&amp;guid=b689a7b99a8d72a4ab6f532069785817&amp;type=3#ExportLogo" style="background-color: rgb(100, 100, 100); margin-top: 2px; padding-bottom: 0; margin-bottom: 2px; align-self: flex-end;"/>
-                </ui:Button>
-                <ui:Button text="Import" name="FileOptionsImport" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
-                    <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/ImportLogo.png?fileID=2800000&amp;guid=6a54a3185dfd59e48bc5443d7602565c&amp;type=3#ImportLogo" style="background-color: rgb(100, 100, 100); margin-top: 2px; margin-bottom: 2px; align-self: flex-end;"/>
-                </ui:Button>
-                <ui:Button text="Export" name="FileOptionsExport" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
-                    <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/ExportLogo.png?fileID=2800000&amp;guid=b689a7b99a8d72a4ab6f532069785817&amp;type=3#ExportLogo" style="background-color: rgb(100, 100, 100); margin-top: 2px; margin-bottom: 2px; align-self: flex-end;"/>
-                </ui:Button>
-                <ui:Button text="Save" name="FileOptionsSave" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
-                    <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/SaveLogo.png?fileID=2800000&amp;guid=8cf65e2246cd9a64cb29814b047f7944&amp;type=3#SaveLogo" style="background-color: rgb(100, 100, 100); width: 20px; height: 20px; padding-right: 0; margin-right: 6px; margin-top: 2px; margin-bottom: 2px; align-self: flex-end;"/>
-                </ui:Button>
-                <ui:Button text="Save as" name="FileOptionsSaveAs" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
-                    <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/SaveAsLogo.png?fileID=2800000&amp;guid=4fdaa9970bde78048976c88712d53d67&amp;type=3#SaveAsLogo" style="background-color: rgb(100, 100, 100); margin-bottom: 2px; margin-top: 2px; width: 20px; height: 20px; margin-right: 5px; align-self: flex-end;"/>
-                </ui:Button>
-            </ui:VisualElement>
-        </ui:VisualElement>
-        <ui:VisualElement name="FileNameHolder" style="flex-direction: row; align-self: flex-start;">
-            <ui:Label text="File name :" style="margin-right: 0; margin-top: 2px;"/>
-            <ui:Label text="NewScene.json" name="FileNameLabel" style="margin-top: 2px; margin-left: 0; padding-left: 2px; margin-right: 0; padding-right: 0;"/>
-        </ui:VisualElement>
-    </ui:VisualElement>
-    <ui:VisualElement name="PopupBackground" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.45); justify-content: center; visibility: hidden;">
+    <ui:VisualElement name="PopupBackground" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.45); justify-content: center; visibility: hidden; position: absolute; width: 100%; height: 100%; top: 0; left: 2px;">
         <ui:VisualElement name="WarningScreen" style="flex-grow: 0; background-color: rgb(47, 47, 47); position: relative; width: 500px; align-self: center; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); display: none; visibility: visible;">
             <ui:Label text="WARNING !" style="color: rgb(255, 255, 255); font-size: 40px; margin-left: 10px; margin-right: 10px; margin-top: 10px;"/>
             <ui:Label text="All unsaved progress will be lost !" name="WarningLabel" style="background-color: rgb(77, 77, 77); font-size: 20px; color: rgb(255, 255, 255); white-space: normal; -unity-text-align: middle-left; padding-left: 5px; padding-right: 5px; padding-top: 20px; padding-bottom: 20px; margin-left: 10px; margin-right: 10px; -unity-font-style: bold; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-bottom-color: rgb(255, 47, 47); border-left-color: rgb(255, 47, 47); border-right-color: rgb(255, 47, 47); border-top-color: rgb(255, 47, 47); border-bottom-width: 2px; border-left-width: 2px; border-top-width: 2px; border-right-width: 2px;"/>

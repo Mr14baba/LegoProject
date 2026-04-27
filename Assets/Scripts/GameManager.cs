@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
         //Add Lego to list of lego placed
         List<GameObject> currentLegoList = dictTypeOfLegoPlaced[newLego.GetComponent<LegoBlock>().EnumLego];
 
-        
         if (currentLegoList.Contains(null))
         {
             currentLegoList[currentLegoList.IndexOf(null)] = newLego;

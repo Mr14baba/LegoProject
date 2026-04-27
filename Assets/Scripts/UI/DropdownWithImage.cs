@@ -5,8 +5,6 @@ using UnityEngine.UIElements;
 [UxmlElement]
 public partial class DropdownWithImage : BaseField<int>
 {
-    [UxmlAttribute]
-    public Texture2D arrowImage;
     public class Item
     {
         public string Label;
