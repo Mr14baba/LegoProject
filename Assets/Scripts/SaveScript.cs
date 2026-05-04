@@ -34,12 +34,13 @@ public class SaveScript : MonoBehaviour
                     LegoData legoData = new()
                     {
                         name = legoToSerialize.name,
+                        id = legoToSerialize.GetComponent<LegoBlock>().id,
                         position = legoToSerialize.transform.position,
                         rotation = legoToSerialize.transform.rotation,
                         color = legoToSerialize.GetComponent<LegoBlock>().ActualLegoMaterial.color,
                         legoEnum = legoToSerialize.GetComponent<LegoBlock>().EnumLego,
                         //prefabName = legoToSerialize.GetComponent<MeshFilter>().sharedMesh.name,
-                        parent = legoToSerialize.transform.parent?.parent.name + "|" + legoToSerialize.transform.parent?.name
+                        parent = legoToSerialize.transform.parent?.parent.GetComponent<LegoBlock>().id + "|" + legoToSerialize.transform.parent?.name
                     };
                     SerializableLegoList.list.Add(legoData);
                 }

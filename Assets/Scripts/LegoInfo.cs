@@ -18,6 +18,7 @@ public enum LegoEnum
 public class LegoData
 {
     public string name;
+    public uint id;
     public Vector3 position;
     public Quaternion rotation;
     public Color color;

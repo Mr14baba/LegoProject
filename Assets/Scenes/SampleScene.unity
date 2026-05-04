@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 60303351}
   - component: {fileID: 60303354}
   - component: {fileID: 60303353}
+  - component: {fileID: 60303355}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -155,6 +156,7 @@ MonoBehaviour:
   colorSelected: {r: 1, g: 0, b: 0, a: 1}
   paintModeEnabled: 0
   legoSelected: 0
+  actualFileName: 
   addHoveringMaterial: {fileID: 2100000, guid: 16f34f3f883f96544afb9b5b4c711cfd, type: 2}
   removeHoveringMaterial: {fileID: 2100000, guid: 62445e68836121442a700d4db523ecf7, type: 2}
   usableLegoList:
@@ -250,6 +252,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b70b3e61f678124593cb574eab353ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExportScript
+--- !u!114 &60303355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60303348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9c0b282263f3a48b49e31e34897fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ImportScript
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

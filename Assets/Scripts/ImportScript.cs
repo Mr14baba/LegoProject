@@ -2,12 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class OpenScript : MonoBehaviour
+public class ImportScript : MonoBehaviour
 {
-    public static OpenScript Instance {get; private set;}
+    public static ImportScript Instance {get; private set;}
     [HideInInspector] public Coroutine InstantiateSceneCoroutine;
 
     private void Awake()
@@ -23,7 +22,7 @@ public class OpenScript : MonoBehaviour
     }
     
 
-    public void OpenScene(string fileToLoad)
+    public void ImportScene(string fileToLoad)
     {
         string SerializedLegoList = File.ReadAllText(fileToLoad);
         SerializedLegoList = SerializedLegoList.Replace(Environment.NewLine, "");
@@ -36,17 +35,7 @@ public class OpenScript : MonoBehaviour
     {
         List<GameObject> newLegosList = new();
 
-        var dictTypeOfLegoPlaced = GameManager.Instance.dictTypeOfLegoPlaced;
-
         Dictionary<GameObject, string> GoToParent = new();
-        //Scene cleanup
-        foreach(LegoEnum key in dictTypeOfLegoPlaced.Keys)
-        {
-            foreach(GameObject legoToRemove in dictTypeOfLegoPlaced[key])
-            {
-                Destroy(legoToRemove);
-            }
-        }
 
         yield return new WaitForEndOfFrame();        
 

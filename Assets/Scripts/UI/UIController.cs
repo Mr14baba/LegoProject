@@ -35,10 +35,14 @@ public class UIController : MonoBehaviour
         Button fileOptionsExport = uiDocument.rootVisualElement.Q<Button>("FileOptionsExport");
         Button fileOptionsSave = uiDocument.rootVisualElement.Q<Button>("FileOptionsSave");
         Button fileOptionsSaveAs = uiDocument.rootVisualElement.Q<Button>("FileOptionsSaveAs");
-        Button importWindowImportButton = uiDocument.rootVisualElement.Q<Button>("ImportImportButton");
-        Button importWindowRefreshButton = uiDocument.rootVisualElement.Q<Button>("ImportRefreshButton");
-        Button importWindowCancelButton = uiDocument.rootVisualElement.Q<Button>("ImportCancelButton");
-        ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("SceneListView");
+        Button openOpenButton = uiDocument.rootVisualElement.Q<Button>("OpenOpenButton");
+        Button openRefreshButton = uiDocument.rootVisualElement.Q<Button>("OpenRefreshButton");
+        Button openCancelButton = uiDocument.rootVisualElement.Q<Button>("OpenCancelButton");
+        Button importImportButton = uiDocument.rootVisualElement.Q<Button>("ImportImportButton");
+        Button importRefreshButton = uiDocument.rootVisualElement.Q<Button>("ImportRefreshButton");
+        Button importCancelButton = uiDocument.rootVisualElement.Q<Button>("ImportCancelButton");
+        ListView sceneToOpenListView = uiDocument.rootVisualElement.Q<ListView>("OpenSceneListView");
+        ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("ImportSceneListView");
 
         List<RadioButton> ColorButtons = uiDocument.rootVisualElement.Q<VisualElement>("ColorButtonGroup").Query<RadioButton>().ToList();
 
@@ -82,23 +86,55 @@ public class UIController : MonoBehaviour
 
         colorSwitchButton.clicked += OnColorSwitchButtonClicked;
 
+        warningCancelButton.clicked += delegate 
+        {
+            popupBackground.visible = false; 
+            warningScreen.style.display = DisplayStyle.None;
+        };
+        fileOptionsButton.clicked += delegate 
+        {
+            fileOptionsWindow.visible = !fileOptionsWindow.visible;
+        };
+        fileOptionsNew.clicked += delegate 
+        {
+            ShowWarning(NewScene); 
+            fileOptionsWindow.visible = false;
+        };
+        fileOptionsOpen.clicked += delegate 
+        {
+            ShowWarning(OpenOpenWindow); 
+            fileOptionsWindow.visible = false;
+        };
+        fileOptionsImport.clicked += delegate 
+        {
+            OpenImportWindow(); 
+            fileOptionsWindow.visible = false;
+        };
+        fileOptionsExport.clicked += delegate
+        {
+            ExportScene();
+            fileOptionsWindow.visible = false;
+        };
+        fileOptionsSave.clicked += delegate 
+        {
+            SaveScene(); 
+            fileOptionsWindow.visible = false;
+        };
+        fileOptionsSaveAs.clicked += delegate 
+        {
+            OpenSaveWindow(); fileOptionsWindow.visible = false;
+        };
+
         saveAsWindowCancelButton.clicked += CloseSaveWindow;
         saveAsWindowSaveButton.clicked += SaveAsScene;
-        warningCancelButton.clicked += delegate {
-            popupBackground.visible = false;
-            warningScreen.style.display = DisplayStyle.None;
-            };
-        fileOptionsButton.clicked += delegate {fileOptionsWindow.visible = !fileOptionsWindow.visible;};
-        fileOptionsNew.clicked += delegate {ShowWarning(NewScene); fileOptionsWindow.visible = false;};
-        fileOptionsOpen.clicked += delegate {ShowWarning(OpenOpenWindow); fileOptionsWindow.visible = false;};
-        //fileOptionsImport.clicked += ;
-        //fileOptionsExport.clicked += ;
-        fileOptionsSave.clicked += delegate {SaveScene(); fileOptionsWindow.visible = false;};
-        fileOptionsSaveAs.clicked += delegate {OpenSaveWindow(); fileOptionsWindow.visible = false;};
+        openCancelButton.clicked += CloseOpenWindow;
+        openOpenButton.clicked += OpenScene;
+        openRefreshButton.clicked += delegate{RefreshImportFiles(sceneToOpenListView);};
+        importCancelButton.clicked += CloseImportWindow;
+        importImportButton.clicked += ImportScene;
+        importRefreshButton.clicked += delegate{RefreshImportFiles(sceneToImportListView);};
 
-        importWindowCancelButton.clicked += CloseOpenWindow;
-        importWindowImportButton.clicked += OpenScene;
-        importWindowRefreshButton.clicked += RefreshImportFiles;
+        sceneToOpenListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
 
         exportTextField.RegisterCallback<FocusInEvent>(evt => OnTextFieldFocusGained());
@@ -111,9 +147,9 @@ public class UIController : MonoBehaviour
             colorSwitchButton,
             saveAsWindowSaveButton,
             saveAsWindowCancelButton,
-            importWindowImportButton,
-            importWindowRefreshButton,
-            importWindowCancelButton,
+            openOpenButton,
+            openRefreshButton,
+            openCancelButton,
             warningCancelButton,
             warningConfirmButton,
             fileOptionsButton,
@@ -123,6 +159,9 @@ public class UIController : MonoBehaviour
             fileOptionsExport,
             fileOptionsSave,
             fileOptionsSaveAs,
+            importImportButton,
+            importRefreshButton,
+            importCancelButton,
         };
 
         foreach(VisualElement element in elementsWithMouseEvent)
@@ -191,36 +230,66 @@ public class UIController : MonoBehaviour
     }
     private void OpenSaveWindow()
     {
-        VisualElement SaveSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("SaveSceneWindow");
+        VisualElement saveSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("SaveSceneWindow");
         VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
 
-        SaveSceneWindow.style.display = DisplayStyle.Flex;
+        saveSceneWindow.style.display = DisplayStyle.Flex;
         popupBackground.visible = true;
     }
 
     private void CloseSaveWindow()
     {
-        VisualElement SaveSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("SaveSceneWindow");
+        VisualElement saveSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("SaveSceneWindow");
         VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
 
-        SaveSceneWindow.style.display = DisplayStyle.None;
+        saveSceneWindow.style.display = DisplayStyle.None;
         popupBackground.visible = false;
     }
 
     private void OpenOpenWindow()
     {
-        
-        VisualElement OpenSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("OpenSceneWindow");
+        ListView openList = uiDocument.rootVisualElement.Q<ListView>("OpenSceneListView");
+        VisualElement openSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("OpenSceneWindow");
         VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
-        OpenSceneWindow.style.display = DisplayStyle.Flex;
+        openSceneWindow.style.display = DisplayStyle.Flex;
         popupBackground.visible = true;
 
-        RefreshImportFiles();
+        RefreshImportFiles(openList);
     }
 
-    private void RefreshImportFiles()
+    private void CloseOpenWindow()
     {
-        ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("SceneListView");
+        VisualElement openSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("OpenSceneWindow");
+        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
+        
+        openSceneWindow.style.display = DisplayStyle.None;
+        popupBackground.visible = false;
+        fileToLoad = null;
+    }
+
+    private void OpenImportWindow()
+    {
+        ListView importList = uiDocument.rootVisualElement.Q<ListView>("ImportSceneListView");
+        VisualElement importSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ImportSceneWindow");
+        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
+        importSceneWindow.style.display = DisplayStyle.Flex;
+        popupBackground.visible = true;
+
+        RefreshImportFiles(importList);
+    }
+
+    private void CloseImportWindow()
+    {
+        VisualElement importSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("ImportSceneWindow");
+        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
+        
+        importSceneWindow.style.display = DisplayStyle.None;
+        popupBackground.visible = false;
+        fileToLoad = null;
+    }
+
+    private void RefreshImportFiles(ListView listToRefresh)
+    {
 
         List<string> itemList = Directory.GetFiles(SaveScript.Instance.sceneFolderPath, "*.json").ToList();
 
@@ -228,19 +297,9 @@ public class UIController : MonoBehaviour
         //We select last backslash to have the .json file and we split the .json part of the name.
         Action<VisualElement, int > bindItem = (e, i) => ((Label)e).text = itemList[i].Substring(itemList[i].LastIndexOf("\\") + 1).Split(".")[0];
 
-        sceneToImportListView.makeItem = makeItem;
-        sceneToImportListView.bindItem = bindItem;
-        sceneToImportListView.itemsSource = itemList;
-        fileToLoad = null;
-    }
-
-    private void CloseOpenWindow()
-    {
-        VisualElement OpenSceneWindow = uiDocument.rootVisualElement.Q<VisualElement>("OpenSceneWindow");
-        VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
-        
-        OpenSceneWindow.style.display = DisplayStyle.None;
-        popupBackground.visible = false;
+        listToRefresh.makeItem = makeItem;
+        listToRefresh.bindItem = bindItem;
+        listToRefresh.itemsSource = itemList;
         fileToLoad = null;
     }
 
@@ -272,7 +331,7 @@ public class UIController : MonoBehaviour
         }
 
         GameManager.Instance.actualFileName = null;
-        fileNameLabel.text = "newScene";
+        fileNameLabel.text = "NewScene.json";
     }
 
         private void OpenScene()
@@ -281,11 +340,25 @@ public class UIController : MonoBehaviour
 
         if(fileToLoad != null)
         {
-            OpenScript.Instance.ImportScene(fileToLoad);
+            OpenScript.Instance.OpenScene(fileToLoad);
             fileNameLabel.text = fileToLoad.Substring(fileToLoad.LastIndexOf("\\") + 1);
             GameManager.Instance.actualFileName = fileNameLabel.text.Split(".")[0];
             CloseOpenWindow();
         }
+    }
+
+    private void ImportScene()
+    {
+        if(fileToLoad != null)
+        {
+            ImportScript.Instance.ImportScene(fileToLoad);
+            CloseImportWindow();
+        }
+    }
+
+    private void ExportScene()
+    {
+        
     }
 
     private void SaveScene()
