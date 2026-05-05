@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 298856044}
   - component: {fileID: 298856043}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: AxisX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -647,7 +647,7 @@ GameObject:
   - component: {fileID: 490047066}
   - component: {fileID: 490047065}
   m_Layer: 0
-  m_Name: Cylinder (1)
+  m_Name: AxisY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

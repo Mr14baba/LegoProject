@@ -28,14 +28,14 @@ public class UIController : MonoBehaviour
         VisualElement warningScreen = uiDocument.rootVisualElement.Q<VisualElement>("WarningScreen");
         Button warningCancelButton = uiDocument.rootVisualElement.Q<Button>("WarningCancelButton");
         Button warningConfirmButton = uiDocument.rootVisualElement.Q<Button>("WarningConfirmButton");
-        Button fileOptionsButton = uiDocument.rootVisualElement.Q<Button>("FileOptionsButton");
-        VisualElement fileOptionsWindow = uiDocument.rootVisualElement.Q<VisualElement>("FileOptionsWindow");
-        Button fileOptionsNew = uiDocument.rootVisualElement.Q<Button>("FileOptionsNew");
-        Button fileOptionsOpen = uiDocument.rootVisualElement.Q<Button>("FileOptionsOpen");
-        Button fileOptionsImport = uiDocument.rootVisualElement.Q<Button>("FileOptionsImport");
-        Button fileOptionsExport = uiDocument.rootVisualElement.Q<Button>("FileOptionsExport");
-        Button fileOptionsSave = uiDocument.rootVisualElement.Q<Button>("FileOptionsSave");
-        Button fileOptionsSaveAs = uiDocument.rootVisualElement.Q<Button>("FileOptionsSaveAs");
+        Button fileButton = uiDocument.rootVisualElement.Q<Button>("FileButton");
+        VisualElement fileWindow = uiDocument.rootVisualElement.Q<VisualElement>("FileWindow");
+        Button fileNew = uiDocument.rootVisualElement.Q<Button>("FileNew");
+        Button fileOpen = uiDocument.rootVisualElement.Q<Button>("FileOpen");
+        Button fileImport = uiDocument.rootVisualElement.Q<Button>("FileImport");
+        Button fileExport = uiDocument.rootVisualElement.Q<Button>("FileExport");
+        Button fileSave = uiDocument.rootVisualElement.Q<Button>("FileSave");
+        Button fileSaveAs = uiDocument.rootVisualElement.Q<Button>("FileSaveAs");
         Button openOpenButton = uiDocument.rootVisualElement.Q<Button>("OpenOpenButton");
         Button openRefreshButton = uiDocument.rootVisualElement.Q<Button>("OpenRefreshButton");
         Button openCancelButton = uiDocument.rootVisualElement.Q<Button>("OpenCancelButton");
@@ -48,6 +48,9 @@ public class UIController : MonoBehaviour
         List<RadioButton> ColorButtons = uiDocument.rootVisualElement.Q<VisualElement>("ColorButtonGroup").Query<RadioButton>().ToList();
 
         List<LegoBlockButton> LegoSelectors = uiDocument.rootVisualElement.Q<ToggleButtonGroup>("ButtonGroupLegoSelected").Query<LegoBlockButton>().ToList();
+        
+        //Set first value in ButtonGroupLegoSelector as selected (for visual only)
+        LegoSelectors[0].SetCheckedPseudoState(true);
 
         foreach (LegoBlockButton button in LegoSelectors)
         {
@@ -92,38 +95,38 @@ public class UIController : MonoBehaviour
             popupBackground.visible = false; 
             warningScreen.style.display = DisplayStyle.None;
         };
-        fileOptionsButton.clicked += delegate 
+        fileButton.clicked += delegate 
         {
-            fileOptionsWindow.visible = !fileOptionsWindow.visible;
+            fileWindow.visible = !fileWindow.visible;
         };
-        fileOptionsNew.clicked += delegate 
+        fileNew.clicked += delegate 
         {
             ShowWarning(NewScene); 
-            fileOptionsWindow.visible = false;
+            fileWindow.visible = false;
         };
-        fileOptionsOpen.clicked += delegate 
+        fileOpen.clicked += delegate 
         {
             ShowWarning(OpenOpenWindow); 
-            fileOptionsWindow.visible = false;
+            fileWindow.visible = false;
         };
-        fileOptionsImport.clicked += delegate 
+        fileImport.clicked += delegate 
         {
             OpenImportWindow(); 
-            fileOptionsWindow.visible = false;
+            fileWindow.visible = false;
         };
-        fileOptionsExport.clicked += delegate
+        fileExport.clicked += delegate
         {
             ExportScene();
-            fileOptionsWindow.visible = false;
+            fileWindow.visible = false;
         };
-        fileOptionsSave.clicked += delegate 
+        fileSave.clicked += delegate 
         {
             SaveScene(); 
-            fileOptionsWindow.visible = false;
+            fileWindow.visible = false;
         };
-        fileOptionsSaveAs.clicked += delegate 
+        fileSaveAs.clicked += delegate 
         {
-            OpenSaveWindow(); fileOptionsWindow.visible = false;
+            OpenSaveWindow(); fileWindow.visible = false;
         };
 
         saveAsWindowCancelButton.clicked += CloseSaveWindow;
@@ -153,13 +156,13 @@ public class UIController : MonoBehaviour
             openCancelButton,
             warningCancelButton,
             warningConfirmButton,
-            fileOptionsButton,
-            fileOptionsNew,
-            fileOptionsOpen,
-            fileOptionsImport,
-            fileOptionsExport,
-            fileOptionsSave,
-            fileOptionsSaveAs,
+            fileButton,
+            fileNew,
+            fileOpen,
+            fileImport,
+            fileExport,
+            fileSave,
+            fileSaveAs,
             importImportButton,
             importRefreshButton,
             importCancelButton,
@@ -380,9 +383,9 @@ public class UIController : MonoBehaviour
     private void SaveAsScene()
     {
         Label fileNameLabel = uiDocument.rootVisualElement.Q<Label>("FileNameLabel");
-        VisualElement fileOptionsWindow = uiDocument.rootVisualElement.Q<VisualElement>("FileOptionsWindow");
+        VisualElement fileWindow = uiDocument.rootVisualElement.Q<VisualElement>("FileWindow");
 
-        fileOptionsWindow.visible = false;
+        fileWindow.visible = false;
         string exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField").value;
         GameManager.Instance.actualFileName = exportTextField;
         SaveScript.Instance.ExportScene(SerializableLegoList);
