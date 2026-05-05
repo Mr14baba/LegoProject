@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour
     public Texture2D mousePaintSprite;
     void Start()
     {
+
         Button colorSwitchButton = uiDocument.rootVisualElement.Q<Button>("ColorSwitchButton");
         TextField exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField");
         Button saveAsWindowSaveButton = uiDocument.rootVisualElement.Q<Button>("SaveAsSaveButton");
@@ -190,8 +191,8 @@ public class UIController : MonoBehaviour
             List<LegoBlockButton> LegoSelectors = uiDocument.rootVisualElement.Q<ToggleButtonGroup>("ButtonGroupLegoSelected").Query<LegoBlockButton>().ToList();
             Button legoButton = LegoSelectors.Find(item => item.legoIndex == itemIndex);
             
-            using var e = new NavigationSubmitEvent() {target = legoButton};
-            LegoSelectors.Find(item => item.legoIndex == itemIndex).SendEvent(e);
+            using var evt = new NavigationSubmitEvent() {target = legoButton};
+            LegoSelectors.Find(item => item.legoIndex == itemIndex).SendEvent(evt);
         }
     }
 
@@ -294,7 +295,9 @@ public class UIController : MonoBehaviour
         List<string> itemList = Directory.GetFiles(SaveScript.Instance.sceneFolderPath, "*.json").ToList();
 
         Func<VisualElement> makeItem = () => new Label();
+
         //We select last backslash to have the .json file and we split the .json part of the name.
+        
         Action<VisualElement, int > bindItem = (e, i) => ((Label)e).text = itemList[i].Substring(itemList[i].LastIndexOf("\\") + 1).Split(".")[0];
 
         listToRefresh.makeItem = makeItem;

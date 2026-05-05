@@ -25,10 +25,12 @@ public class LegoBlock : MonoBehaviour
         if (id == 0)
         {
             id = GenerateID();
-            Debug.Log(id);
         }
     }
-
+    
+    ///<summary>
+    ///Set actualLegoMaterial and the Renderer material of the Lego and its clips.
+    ///</summary>
     public void SetMaterial(Material material)
     {
         ActualLegoMaterial = material;
@@ -39,6 +41,9 @@ public class LegoBlock : MonoBehaviour
         }
     }
 
+    ///<summary>
+    ///Set hoveringLegoMaterial and the Renderer material of the Lego and its clips.
+    ///</summary>
     public void SetHoveringMaterial(Material material)
     {
         HoveringLegoMaterial = material;
@@ -49,6 +54,9 @@ public class LegoBlock : MonoBehaviour
         }
     }
 
+    ///<summary>
+    ///Set the Renderer material of the lego and its clips to ActualLegoMaterial.
+    ///</summary>
     public void ResetHoveringMaterial()
     {
         legoRenderer.material = ActualLegoMaterial;
@@ -58,6 +66,9 @@ public class LegoBlock : MonoBehaviour
         }
     }
 
+    ///<summary>
+    ///Generate a random 8 numbers uint with number ranging from 0 to 9.
+    ///</summary>
     public uint GenerateID()
     {
         string newID = "";

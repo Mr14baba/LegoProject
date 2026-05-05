@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public Material addHoveringMaterial;
     public Material removeHoveringMaterial;
     public GameObject[] usableLegoList;
+
+    //Instanciate the Singleton
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -25,7 +28,8 @@ public class GameManager : MonoBehaviour
     }
     public void AddNewLego(GameObject newLego, bool addNumbering = true)
     {
-        //Rename Lego
+        //Replace the "(Clone)" of the instanciated lego by nothing AND add a new List of Lego Type if it was never used before
+
         newLego.name = newLego.name.Replace("(Clone)", "");
         if (!dictTypeOfLegoPlaced.ContainsKey(newLego.GetComponent<LegoBlock>().EnumLego))
         {
@@ -33,6 +37,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Add Lego to list of lego placed
+
         List<GameObject> currentLegoList = dictTypeOfLegoPlaced[newLego.GetComponent<LegoBlock>().EnumLego];
 
         if (currentLegoList.Contains(null))

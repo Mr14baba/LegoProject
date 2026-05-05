@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -11,20 +12,19 @@ public class PlayerController : MonoBehaviour
 {
     private Camera playerCam;
     private GameObject focusPoint;
-    private Vector2 move;
-    private Vector2 rotate;
+    private Vector2 playerLocation;
+    private Vector2 playerRotation;
     private Vector3 baseZoom;
     private Vector3 cameraRotation;
     private RaycastHit mouseCast;
     private float actualZoomPercentage = 100;
     private Coroutine zoomCoroutine;
-    private Coroutine placePieceHoveringCoroutine;
-    private Coroutine removePieceHoveringCoroutine;
     private Quaternion legoRotation = Quaternion.identity;
     private Vector3 zoomVelocity = Vector3.zero;
     private bool isCorrectSurface;
     private GameObject legoDecoy;
     private int actualLegoClip;
+    private bool isImporting = false;
 
     public PlayerInputs controls;
     
@@ -48,14 +48,17 @@ public class PlayerController : MonoBehaviour
         baseZoom = playerCam.transform.localPosition;
         focusPoint = transform.GetChild(0).gameObject;
         controls = new PlayerInputs();
+
+        //Add all events for click and input handling
+
         controls.Player.PlacePiece.started += ctx => PlacePieceStarted();
         controls.Player.RemovePiece.started += ctx => RemovePieceStarted();
         controls.Player.MoveCamera.performed += ctx => MoveCameraPressed(ctx.ReadValue<Vector2>());
-        controls.Player.MoveCamera.performed += ctx => move = ctx.ReadValue<Vector2>();
-        controls.Player.MoveCamera.canceled += ctx => move = Vector2.zero;
+        controls.Player.MoveCamera.performed += ctx => playerLocation = ctx.ReadValue<Vector2>();
+        controls.Player.MoveCamera.canceled += ctx => playerLocation = Vector2.zero;
         controls.Player.RotateCamera.performed += ctx => RotateCameraPressed(ctx.ReadValue<Vector2>());
-        controls.Player.RotateCamera.performed += ctx => rotate = ctx.ReadValue<Vector2>();
-        controls.Player.RotateCamera.canceled += ctx => rotate = Vector2.zero;
+        controls.Player.RotateCamera.performed += ctx => playerRotation = ctx.ReadValue<Vector2>();
+        controls.Player.RotateCamera.canceled += ctx => playerRotation = Vector2.zero;
         controls.Player.ScrollZoom.performed += ctx => ScrollZoomPressed(ctx.ReadValue<float>());
         controls.Player.SwitchLego.started += ctx => SwitchLegoPiece(ctx.ReadValue<float>());
         controls.Player.RotateLego.started += ctx => RotateLego();
@@ -73,7 +76,10 @@ public class PlayerController : MonoBehaviour
         controls.Player.Disable();
     }
 
-    private Vector3 RoundVector3AwayFromZero(Vector3 vector3, bool ignoreX = false, bool ignoreY = false, bool ignoreZ = false)
+    ///<summary>
+    ///Round each axis away from zero (since it doesn't exist for vector3).
+    ///</summary>
+    public Vector3 RoundVector3AwayFromZero(Vector3 vector3, bool ignoreX = false, bool ignoreY = false, bool ignoreZ = false)
     {
         float x = 0;
         float y = 0;
@@ -93,7 +99,15 @@ public class PlayerController : MonoBehaviour
         return new Vector3(x,y,z);
     }
 
-    IEnumerator ZoomSmoothing(Vector3 targetPos)
+    ///<summary>
+    ///Public function to start the importation hovering Coroutine.
+    ///</summary>
+    public void StartImportationCoroutine(Dictionary<GameObject, Vector3> objToMove)
+    {
+        StartCoroutine(PlaceImportation(objToMove));
+    }
+
+    private IEnumerator ZoomSmoothing(Vector3 targetPos)
     {
         float speed = 2;
         //Debug.Log(targetPos);
@@ -104,11 +118,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator PlacePieceCoroutine()
+    private IEnumerator PlacePieceCoroutine()
     {
         Vector3 spawnPos = Vector3.zero;
         Quaternion spawnRot = quaternion.identity;
         GameObject parentLego = null;
+
+        //Instanciate lego used for hovering
+
         legoDecoy = Instantiate(GameManager.Instance.usableLegoList[GameManager.Instance.legoSelected], spawnPos, spawnRot);
         legoDecoy.transform.GetComponent<LegoBlock>().SetHoveringMaterial(GameManager.Instance.addHoveringMaterial);
 
@@ -117,15 +134,19 @@ public class PlayerController : MonoBehaviour
             if (isCorrectSurface)
             {
                 legoDecoy.SetActive(true);
-                //select method to place lego on surface
+
+                //Select method to place lego on surface
+
                 switch (mouseCast.collider.gameObject.layer)
                 {
+                    //Layer 3 = LegoClip ; Attach the instaciated lego to the clip
                     case 3:
                         mouseCast.transform.GetPositionAndRotation(out spawnPos, out spawnRot);
                         parentLego = mouseCast.collider.gameObject;
                         legoDecoy.SetActive(true);
                         break;
 
+                    //Layer 6 = Ground ; Round position on the ground
                     case 6:
                         spawnPos = RoundVector3AwayFromZero(mouseCast.point);
                         spawnRot = quaternion.identity;
@@ -133,6 +154,7 @@ public class PlayerController : MonoBehaviour
                         legoDecoy.SetActive(true);
                         break;
 
+                    //Layer 7 = BottomClip ; Set position from a clip of the Lego
                     case 7:
                         GameObject tempPivot = new();
                         Transform child = legoDecoy.transform.GetChild(actualLegoClip);
@@ -147,6 +169,7 @@ public class PlayerController : MonoBehaviour
                         legoDecoy.SetActive(true);
                         break;
 
+                    //Other Layers ; Disable the Lego
                     default:
                         parentLego = null;
                         legoDecoy.SetActive(false);
@@ -162,7 +185,8 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        //Place lego if it is placable, else destroys it
+        //Place lego if it is placable, ELSE destroys it
+
         if (legoDecoy.activeSelf && !controls.Player.RemovePiece.IsPressed())
         {
             if (parentLego != null)
@@ -185,32 +209,38 @@ public class PlayerController : MonoBehaviour
         legoRotation = Quaternion.identity;
     }
 
-    IEnumerator RemovePieceCoroutine()
+    private IEnumerator RemovePieceCoroutine()
     {
         GameObject currentLegoSelected = null;
         GameObject lastLegoSelected = null;
         while (controls.Player.RemovePiece.IsPressed() && !controls.Player.PlacePiece.IsPressed())
         {
+            //Select method to remove lego based on surface
             switch (mouseCast.collider.gameObject.layer)
             {
+                //Layer 3 = LegoClip ; Select parent to set hovering material
                 case 3:
                     mouseCast.transform.parent.gameObject.GetComponent<LegoBlock>().SetHoveringMaterial(GameManager.Instance.removeHoveringMaterial);
                     currentLegoSelected = mouseCast.transform.parent.gameObject;
                     break;
-
+                
+                //Layer 6 = ground ; Do nothing
                 case 6:
                     break;
 
+                //Layer 7 = BottomClip ; Select parent to set hovering material
                 case 7:
                     mouseCast.transform.parent.gameObject.GetComponent<LegoBlock>().SetHoveringMaterial(GameManager.Instance.removeHoveringMaterial);
                     currentLegoSelected = mouseCast.transform.parent.gameObject;
                     break;
-                
+                //Default = Lego ; Select gameObject to set hovering material
                 default:
                     mouseCast.collider.gameObject.GetComponent<LegoBlock>().SetHoveringMaterial(GameManager.Instance.removeHoveringMaterial);
                     currentLegoSelected = mouseCast.collider.gameObject;
                     break;
             }
+
+            //Remove hovering material when we hover another GameObject
             if (currentLegoSelected != lastLegoSelected)
             {
                 if ( lastLegoSelected != null)
@@ -221,6 +251,8 @@ public class PlayerController : MonoBehaviour
             }
             yield return null;
         }
+
+        //Remove Lego from Lego list and destroy it
         if (!controls.Player.PlacePiece.IsPressed() && currentLegoSelected != null)
         {
             for(int i = 0; i < currentLegoSelected.transform.childCount; i++)
@@ -233,6 +265,31 @@ public class PlayerController : MonoBehaviour
         else if (currentLegoSelected != null)
         {
             currentLegoSelected.GetComponent<LegoBlock>().ResetHoveringMaterial(); 
+        }
+    }
+
+    private IEnumerator PlaceImportation(Dictionary<GameObject, Vector3> objToMove)
+    {
+        isImporting = true;
+        while (isImporting)
+        {
+            foreach(GameObject obj in objToMove.Keys)
+            {
+                obj.transform.position = objToMove[obj] + RoundVector3AwayFromZero(mouseCast.point, ignoreY:true);
+
+            }
+
+            yield return null;
+        }
+
+        foreach(GameObject obj in objToMove.Keys)
+        {
+            obj.GetComponent<LegoBlock>().ResetHoveringMaterial();
+            obj.GetComponent<Collider>().enabled = true;
+            for(int i = 0; i < obj.transform.childCount; i++)
+            {
+                obj.transform.GetChild(i).GetComponent<Collider>().enabled = true;
+            }
         }
     }
 
@@ -252,15 +309,19 @@ public class PlayerController : MonoBehaviour
         {
             changeLegoColor();
         }
+        else if (isImporting)
+        {
+            isImporting = false;
+        }
         else
         {
-            placePieceHoveringCoroutine = StartCoroutine(PlacePieceCoroutine());
+            StartCoroutine(PlacePieceCoroutine());
         }
     }
 
     private void RemovePieceStarted()
     {
-        removePieceHoveringCoroutine = StartCoroutine(RemovePieceCoroutine());
+        StartCoroutine(RemovePieceCoroutine());
     }
 
     private void ScrollZoomPressed(float ScrollAxis)
@@ -353,7 +414,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         //Player movement (The parent of this script, NOT MainCamera)
-        Vector3 movement = (Vector3.ProjectOnPlane(playerCam.transform.forward, Vector3.up).normalized * move.y * speed * Time.deltaTime) + (playerCam.transform.right * move.x * speed * Time.deltaTime);
+        Vector3 movement = (Vector3.ProjectOnPlane(playerCam.transform.forward, Vector3.up).normalized * playerLocation.y * speed * Time.deltaTime) + (playerCam.transform.right * playerLocation.x * speed * Time.deltaTime);
         movement = new Vector3(movement.x, 0.0f, movement.z);
         if (Keyboard.current.shiftKey.isPressed)
         {
@@ -365,7 +426,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Player rotation (Rotation of FocusPoint, NOT MainCamera !)
-        cameraRotation += new Vector3(rotate.y, rotate.x, 0.0f) * cameraSpeed * Time.deltaTime;
+        cameraRotation += new Vector3(playerRotation.y, playerRotation.x, 0.0f) * cameraSpeed * Time.deltaTime;
         cameraRotation = new Vector3(Mathf.Clamp(cameraRotation.x, cameraYClamp.x, cameraYClamp.y), cameraRotation.y, 0.0f);
         focusPoint.transform.eulerAngles = cameraRotation;
 

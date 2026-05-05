@@ -25,6 +25,7 @@ public class LegoData
     public LegoEnum legoEnum;
 
     //can be used later to replace LegoEnum for customized lego piece
+    
     //public string prefabName;
     public string parent;
 }
