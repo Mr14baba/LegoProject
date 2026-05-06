@@ -226,6 +226,7 @@ public class PlayerController : MonoBehaviour
                 
                 //Layer 6 = ground ; Do nothing
                 case 6:
+                currentLegoSelected = null;
                     break;
 
                 //Layer 7 = BottomClip ; Select parent to set hovering material
