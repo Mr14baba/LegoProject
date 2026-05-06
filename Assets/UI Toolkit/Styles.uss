@@ -5,14 +5,10 @@
     color: rgb(255, 255, 255);
     background-color: rgb(100, 100, 100);
     border-color: rgb(150, 150, 150);
-
-    /*border width*/
     border-top-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
     border-right-width: 1px;
-
-    /*border radius*/
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -20,26 +16,22 @@
 }
 
 .unity-button:hover {
-   background-color: rgb(75, 75, 75); 
+    background-color: rgb(75, 75, 75);
 }
 
 .unity-header-button {
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     background-color: rgb(150, 150, 150);
-
-    /*border width*/
+    width: 100px;
+    height: 25px;
     border-top-width: 0px;
     border-bottom-width: 0px;
     border-left-width: 0px;
     border-right-width: 0px;
-
-     /*border radius*/
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-
-    /*margin*/
     margin-top: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
@@ -52,40 +44,31 @@
 
 .unity-lego-button {
     background-color: rgba(0, 0, 0, 0);
-
-    /*border width*/
-    border-top-width: 0px;
-    border-bottom-width: 0px;
-    border-left-width: 0px;
-    border-right-width: 0px;
-
-    /*border radius*/
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-
-    /*padding*/
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 5px;
     padding-bottom: 5px;
-
     height: 85px;
     width: 85px;
 }
 
 .unity-lego-button:hover {
-    background-color: rgba(35, 35, 35, 1);
+    background-color: rgb(35, 35, 35);
 }
 
 .unity-lego-button:checked {
-    background-color: rgba(10, 10, 10, 1);
+    background-color: rgb(10, 10, 10);
 }
 
 .colorSelectorRadioButton > .unity-radio-button__input > .unity-radio-button__checkmark-background {
-
-    /*border width*/
     border-top-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
@@ -94,8 +77,6 @@
 
 .colorSelectorRadioButton:checked > .unity-radio-button__input > .unity-radio-button__checkmark-background {
     border-color: rgb(207, 207, 207);
-
-    /*border width*/
     border-top-width: 4px;
     border-bottom-width: 4px;
     border-left-width: 4px;
@@ -113,12 +94,8 @@
     flex-direction: row;
     align-items: center;
     background-color: rgb(100, 100, 100);
-
-    /*padding*/
     padding-left: 6px;
     padding-right: 6px;
-
-    /*border width*/
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -153,14 +130,10 @@
     position: absolute;
     display: flex;
     background-color: rgb(47, 47, 47);
-
-    /*border radius*/
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
-
-    /*padding*/
     padding-top: 8px;
     padding-bottom: 8px;
     padding-left: 8px;
@@ -184,8 +157,6 @@
 .image-dropdown-field__popup-icon {
     width: 64px;
     height: 64px;
-
-    /*padding*/
     padding-top: 4px;
     padding-bottom: 4px;
 }

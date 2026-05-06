@@ -43,9 +43,11 @@
                 <ui:VisualElement name="Spacer" style="flex-grow: 1; width: 25px;"/>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="FileToolbar" style="height: 27px; background-color: rgb(25, 25, 25); flex-direction: row; border-bottom-width: 2px; border-bottom-color: rgb(150, 150, 150);">
+        <ui:VisualElement name="FileToolbar" style="height: 27px; background-color: rgb(25, 25, 25); flex-direction: row; border-bottom-width: 2px; border-bottom-color: rgb(75, 75, 75);">
             <ui:VisualElement name="File">
-                <ui:Button text="File" name="FileButton" class="unity-header-button" style="align-self: flex-start; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; width: 100px;"/>
+                <ui:Button text="File" name="FileButton" class="unity-header-button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; -unity-text-align: middle-left;">
+                    <ui:Image style="background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4154780841294389669&amp;guid=1fd29a69d0b44f944b25557794be1e65&amp;type=3#arrow-down&quot;); align-self: flex-end; height: 16px; width: 16px; -unity-background-image-tint-color: rgb(0, 0, 0);"/>
+                </ui:Button>
                 <ui:VisualElement name="FileWindow" style="visibility: hidden; background-color: rgb(150, 150, 150); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; width: 125px; position: absolute; top: 25px;">
                     <ui:Button text="New" name="FileNew" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-text-align: middle-left; flex-grow: 1;">
                         <ui:Image source="project://database/Assets/UI%20Toolkit/Logos/SaveAsLogo.png?fileID=2800000&amp;guid=4fdaa9970bde78048976c88712d53d67&amp;type=3#SaveAsLogo" style="margin-top: 2px; margin-bottom: 2px; width: 20px; height: 20px; padding-right: 0; margin-right: 5px; align-self: flex-end;"/>
