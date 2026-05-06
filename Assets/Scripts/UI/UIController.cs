@@ -336,7 +336,7 @@ public class UIController : MonoBehaviour
             }
         }
 
-        GameManager.Instance.actualFileName = null;
+        GameManager.Instance.actualFileName = "";
         fileNameLabel.text = "NewScene.json";
     }
 
