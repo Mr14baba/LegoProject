@@ -24,10 +24,12 @@ public class UIController : MonoBehaviour
         TextField exportTextField = uiDocument.rootVisualElement.Q<TextField>("ExportTextField");
         Button saveAsWindowSaveButton = uiDocument.rootVisualElement.Q<Button>("SaveAsSaveButton");
         Button saveAsWindowCancelButton = uiDocument.rootVisualElement.Q<Button>("SaveAsCancelButton");
+
         VisualElement popupBackground = uiDocument.rootVisualElement.Q<VisualElement>("PopupBackground");
         VisualElement warningScreen = uiDocument.rootVisualElement.Q<VisualElement>("WarningScreen");
         Button warningCancelButton = uiDocument.rootVisualElement.Q<Button>("WarningCancelButton");
         Button warningConfirmButton = uiDocument.rootVisualElement.Q<Button>("WarningConfirmButton");
+
         Button fileButton = uiDocument.rootVisualElement.Q<Button>("FileButton");
         VisualElement fileWindow = uiDocument.rootVisualElement.Q<VisualElement>("FileWindow");
         Button fileNew = uiDocument.rootVisualElement.Q<Button>("FileNew");
@@ -36,12 +38,20 @@ public class UIController : MonoBehaviour
         Button fileExport = uiDocument.rootVisualElement.Q<Button>("FileExport");
         Button fileSave = uiDocument.rootVisualElement.Q<Button>("FileSave");
         Button fileSaveAs = uiDocument.rootVisualElement.Q<Button>("FileSaveAs");
+
+        Button optionsButton = uiDocument.rootVisualElement.Q<Button>("OptionsButton");
+        VisualElement optionsWindow = uiDocument.rootVisualElement.Q<VisualElement>("OptionsWindow");
+        Toggle fullscreenToggle = uiDocument.rootVisualElement.Q<Toggle>("FullscreenToggle");
+        Toggle vSyncToggle = uiDocument.rootVisualElement.Q<Toggle>("VSyncToggle");
+        Button optionQuit = uiDocument.rootVisualElement.Q<Button>("OptionQuit");
+
         Button openOpenButton = uiDocument.rootVisualElement.Q<Button>("OpenOpenButton");
         Button openRefreshButton = uiDocument.rootVisualElement.Q<Button>("OpenRefreshButton");
         Button openCancelButton = uiDocument.rootVisualElement.Q<Button>("OpenCancelButton");
         Button importImportButton = uiDocument.rootVisualElement.Q<Button>("ImportImportButton");
         Button importRefreshButton = uiDocument.rootVisualElement.Q<Button>("ImportRefreshButton");
         Button importCancelButton = uiDocument.rootVisualElement.Q<Button>("ImportCancelButton");
+
         ListView sceneToOpenListView = uiDocument.rootVisualElement.Q<ListView>("OpenSceneListView");
         ListView sceneToImportListView = uiDocument.rootVisualElement.Q<ListView>("ImportSceneListView");
 
@@ -51,6 +61,12 @@ public class UIController : MonoBehaviour
         
         //Set first value in ButtonGroupLegoSelector as selected (for visual only)
         LegoSelectors[0].SetCheckedPseudoState(true);
+
+        //Set Fullscreen value
+        fullscreenToggle.value = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
+
+        //Set VSync value
+        vSyncToggle.value = Convert.ToBoolean(QualitySettings.vSyncCount);
 
         foreach (LegoBlockButton button in LegoSelectors)
         {
@@ -95,9 +111,12 @@ public class UIController : MonoBehaviour
             popupBackground.visible = false; 
             warningScreen.style.display = DisplayStyle.None;
         };
+
+        //File Buttons Event
         fileButton.clicked += delegate 
         {
             fileWindow.visible = !fileWindow.visible;
+            optionsWindow.visible = false;
         };
         fileNew.clicked += delegate 
         {
@@ -138,6 +157,32 @@ public class UIController : MonoBehaviour
         importImportButton.clicked += ImportScene;
         importRefreshButton.clicked += delegate{RefreshImportFiles(sceneToImportListView);};
 
+        //Options Buttons Event
+
+        optionsButton.clicked += delegate 
+        {
+            optionsWindow.visible = !optionsWindow.visible;
+            fileWindow.visible = false;
+        };
+
+        fullscreenToggle.RegisterValueChangedCallback(evt =>
+        {
+            if (evt.newValue)
+            {
+                Screen.SetResolution(Display.main.systemWidth, Display.main.systemHeight, FullScreenMode.FullScreenWindow);
+                //Debug.Log("Fullscreen");
+            }
+            else
+            {
+                Screen.fullScreenMode = FullScreenMode.Windowed;
+                //Debug.Log("Windowed");
+            }
+        });
+
+        vSyncToggle.RegisterValueChangedCallback(evt =>{ QualitySettings.vSyncCount = Convert.ToInt32(evt.newValue); });
+
+        optionQuit.clicked += delegate{ShowWarning(Application.Quit, "All your unsaved progress will be lost !");};
+
         sceneToOpenListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
         sceneToImportListView.selectionChanged += (fileSelected) => fileToLoad = fileSelected.First().ToSafeString();
 
@@ -166,6 +211,10 @@ public class UIController : MonoBehaviour
             importImportButton,
             importRefreshButton,
             importCancelButton,
+            optionsButton,
+            fullscreenToggle,
+            vSyncToggle,
+            optionQuit,
         };
 
         foreach(VisualElement element in elementsWithMouseEvent)
