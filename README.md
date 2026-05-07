@@ -1,29 +1,29 @@
-## Prise en main
+## Getting Started
 
 ### Installation
-Sélectionnez la branche de la version que vous voulez puis copiez-la.
+Select the branch for the version you want, then copy/clone it.
 
-Ajoutez le projet sur **Unity Hub** et ouvrez-le avec la version **6000.4.1f1**.
+Add the project to **Unity Hub** and open it using version **6000.4.1f1**.
 
-Allez dans le dossier **Scenes**, et ouvrez la scène **SampleScene**.
+Navigate to the **Scenes** folder and open the **SampleScene**.
 
-### Utilisation
-Les contrôles de l'éditeur de LEGO :
-- ZQSD = déplacements
-- Clic molette (Maintenu) = rotation de la caméra
+### Usage
+LEGO Editor Controls :
+- ZQSD = Movement
+- Middle Click (hold) = Camera Rotation
 - Scroll = Zoom
-- Clic gauche = placer un LEGO
-- R = rotation du LEGO
-- Clic droit = supprimer un LEGO
-- 1 & 3 = Changer de LEGO
-- F = Changer le point d'accroche du LEGO (fonctionne que quand on ajoute un LEGO sous un autre LEGO)
-- T = Active/Désactive le mode Couleur
+- Left Click = Place a LEGO brick
+- R = rotate a LEGO brick
+- Right Click = delete a LEGO brick
+- 1 & 3 = Cycle through LEGO brick
+- F = Change the attachment point (only works when adding a LEGO brick beneath another)
+- T = Toggle Color Mode ON/OFF
 
-Lorsque vous exportez une scène, elle s'ajoute dans le dossier **LegoScenes**, qui se trouve dans votre dossier **Document**.
-La scène est un dossier **.JSON**, il est prévu que la scène puisse être exportée en .FBX et .OBJ.
+When you export a scene, it is saved to the **LegoScenes** folder located in your **Documents** directory.
+The scene is saved as a **.JSON** file; support for .FBX and .OBJ exports is planned for future updates..
 
-## Merci de votre intérêt pour ce projet !
+## Thank you for your interest in this project !
 
 Timéo DAVID - [LinkedIn](https://www.linkedin.com/in/tim%C3%A9o-david-170167301) - timeodavid947@gmail.com
 
-Lien vers le projet : [https://github.com/Mr14baba/LegoProject](https://github.com/Mr14baba/LegoProject)
+Link to the project : [https://github.com/Mr14baba/LegoProject](https://github.com/Mr14baba/LegoProject)
