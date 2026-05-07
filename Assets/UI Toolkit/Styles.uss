@@ -21,7 +21,7 @@
 
 .unity-header-button {
     color: rgb(0, 0, 0);
-    background-color: rgb(150, 150, 150);
+    background-color: rgb(200, 200, 200);
     width: 100px;
     height: 25px;
     border-top-width: 0px;
@@ -39,7 +39,7 @@
 }
 
 .unity-header-button:hover {
-    background-color: rgb(100, 100, 100);
+    background-color: rgb(150, 150, 150);
 }
 
 .unity-lego-button {
