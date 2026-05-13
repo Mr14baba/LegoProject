@@ -14,6 +14,14 @@ public enum LegoEnum
     
 }
 
+public enum PlayerMode
+{
+    Place,
+    Paint,
+    Selection,
+    Import,
+}
+
 [Serializable]
 public class LegoData
 {

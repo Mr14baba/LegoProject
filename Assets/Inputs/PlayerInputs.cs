@@ -120,7 +120,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""PlacePiece"",
+                    ""name"": ""LeftClick"",
                     ""type"": ""Button"",
                     ""id"": ""8c0adf1f-02ca-4feb-87ef-e892318941cb"",
                     ""expectedControlType"": """",
@@ -129,7 +129,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RemovePiece"",
+                    ""name"": ""RightClick"",
                     ""type"": ""Button"",
                     ""id"": ""1453d9cd-528e-453a-a5fc-3b161bdc5e5d"",
                     ""expectedControlType"": """",
@@ -168,6 +168,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""name"": ""PaintMode"",
                     ""type"": ""Button"",
                     ""id"": ""ef94ade3-327c-460f-a716-2a9551a9c284"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectionMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""d150a4f6-35c1-4f4d-9834-3762cd979f6c"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -325,7 +334,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""PlacePiece"",
+                    ""action"": ""LeftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -369,7 +378,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RemovePiece"",
+                    ""action"": ""RightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -436,6 +445,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PaintMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88a0a34e-67a9-4d5a-a96b-72246d0dcc29"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectionMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -661,12 +681,13 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_MoveCamera = m_Player.FindAction("MoveCamera", throwIfNotFound: true);
         m_Player_RotateCamera = m_Player.FindAction("RotateCamera", throwIfNotFound: true);
         m_Player_ScrollZoom = m_Player.FindAction("ScrollZoom", throwIfNotFound: true);
-        m_Player_PlacePiece = m_Player.FindAction("PlacePiece", throwIfNotFound: true);
-        m_Player_RemovePiece = m_Player.FindAction("RemovePiece", throwIfNotFound: true);
+        m_Player_LeftClick = m_Player.FindAction("LeftClick", throwIfNotFound: true);
+        m_Player_RightClick = m_Player.FindAction("RightClick", throwIfNotFound: true);
         m_Player_SwitchLego = m_Player.FindAction("SwitchLego", throwIfNotFound: true);
         m_Player_RotateLego = m_Player.FindAction("RotateLego", throwIfNotFound: true);
         m_Player_SwitchClipBottom = m_Player.FindAction("SwitchClipBottom", throwIfNotFound: true);
         m_Player_PaintMode = m_Player.FindAction("PaintMode", throwIfNotFound: true);
+        m_Player_SelectionMode = m_Player.FindAction("SelectionMode", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -761,12 +782,13 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MoveCamera;
     private readonly InputAction m_Player_RotateCamera;
     private readonly InputAction m_Player_ScrollZoom;
-    private readonly InputAction m_Player_PlacePiece;
-    private readonly InputAction m_Player_RemovePiece;
+    private readonly InputAction m_Player_LeftClick;
+    private readonly InputAction m_Player_RightClick;
     private readonly InputAction m_Player_SwitchLego;
     private readonly InputAction m_Player_RotateLego;
     private readonly InputAction m_Player_SwitchClipBottom;
     private readonly InputAction m_Player_PaintMode;
+    private readonly InputAction m_Player_SelectionMode;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -791,13 +813,13 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @ScrollZoom => m_Wrapper.m_Player_ScrollZoom;
         /// <summary>
-        /// Provides access to the underlying input action "Player/PlacePiece".
+        /// Provides access to the underlying input action "Player/LeftClick".
         /// </summary>
-        public InputAction @PlacePiece => m_Wrapper.m_Player_PlacePiece;
+        public InputAction @LeftClick => m_Wrapper.m_Player_LeftClick;
         /// <summary>
-        /// Provides access to the underlying input action "Player/RemovePiece".
+        /// Provides access to the underlying input action "Player/RightClick".
         /// </summary>
-        public InputAction @RemovePiece => m_Wrapper.m_Player_RemovePiece;
+        public InputAction @RightClick => m_Wrapper.m_Player_RightClick;
         /// <summary>
         /// Provides access to the underlying input action "Player/SwitchLego".
         /// </summary>
@@ -814,6 +836,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/PaintMode".
         /// </summary>
         public InputAction @PaintMode => m_Wrapper.m_Player_PaintMode;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectionMode".
+        /// </summary>
+        public InputAction @SelectionMode => m_Wrapper.m_Player_SelectionMode;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -849,12 +875,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @ScrollZoom.started += instance.OnScrollZoom;
             @ScrollZoom.performed += instance.OnScrollZoom;
             @ScrollZoom.canceled += instance.OnScrollZoom;
-            @PlacePiece.started += instance.OnPlacePiece;
-            @PlacePiece.performed += instance.OnPlacePiece;
-            @PlacePiece.canceled += instance.OnPlacePiece;
-            @RemovePiece.started += instance.OnRemovePiece;
-            @RemovePiece.performed += instance.OnRemovePiece;
-            @RemovePiece.canceled += instance.OnRemovePiece;
+            @LeftClick.started += instance.OnLeftClick;
+            @LeftClick.performed += instance.OnLeftClick;
+            @LeftClick.canceled += instance.OnLeftClick;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
             @SwitchLego.started += instance.OnSwitchLego;
             @SwitchLego.performed += instance.OnSwitchLego;
             @SwitchLego.canceled += instance.OnSwitchLego;
@@ -867,6 +893,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @PaintMode.started += instance.OnPaintMode;
             @PaintMode.performed += instance.OnPaintMode;
             @PaintMode.canceled += instance.OnPaintMode;
+            @SelectionMode.started += instance.OnSelectionMode;
+            @SelectionMode.performed += instance.OnSelectionMode;
+            @SelectionMode.canceled += instance.OnSelectionMode;
         }
 
         /// <summary>
@@ -887,12 +916,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @ScrollZoom.started -= instance.OnScrollZoom;
             @ScrollZoom.performed -= instance.OnScrollZoom;
             @ScrollZoom.canceled -= instance.OnScrollZoom;
-            @PlacePiece.started -= instance.OnPlacePiece;
-            @PlacePiece.performed -= instance.OnPlacePiece;
-            @PlacePiece.canceled -= instance.OnPlacePiece;
-            @RemovePiece.started -= instance.OnRemovePiece;
-            @RemovePiece.performed -= instance.OnRemovePiece;
-            @RemovePiece.canceled -= instance.OnRemovePiece;
+            @LeftClick.started -= instance.OnLeftClick;
+            @LeftClick.performed -= instance.OnLeftClick;
+            @LeftClick.canceled -= instance.OnLeftClick;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
             @SwitchLego.started -= instance.OnSwitchLego;
             @SwitchLego.performed -= instance.OnSwitchLego;
             @SwitchLego.canceled -= instance.OnSwitchLego;
@@ -905,6 +934,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @PaintMode.started -= instance.OnPaintMode;
             @PaintMode.performed -= instance.OnPaintMode;
             @PaintMode.canceled -= instance.OnPaintMode;
+            @SelectionMode.started -= instance.OnSelectionMode;
+            @SelectionMode.performed -= instance.OnSelectionMode;
+            @SelectionMode.canceled -= instance.OnSelectionMode;
         }
 
         /// <summary>
@@ -1140,19 +1172,19 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScrollZoom(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "PlacePiece" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "LeftClick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPlacePiece(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "RemovePiece" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "RightClick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRemovePiece(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "SwitchLego" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -1181,6 +1213,13 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPaintMode(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectionMode" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectionMode(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

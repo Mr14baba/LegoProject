@@ -104,7 +104,7 @@ public class UIController : MonoBehaviour
 
         // Set all events when buttons are clicked
 
-        colorSwitchButton.clicked += OnColorSwitchButtonClicked;
+        colorSwitchButton.clicked += PaintModeModified;
 
         warningCancelButton.clicked += delegate 
         {
@@ -227,13 +227,6 @@ public class UIController : MonoBehaviour
         exportTextField.RegisterCallback<MouseLeaveEvent>(evt => UnityEngine.Cursor.SetCursor(DefaultMouseSprite, Vector2.zero, CursorMode.Auto));
     }
 
-    private void OnColorSwitchButtonClicked()
-    {
-        GameManager.Instance.paintModeEnabled = !GameManager.Instance.paintModeEnabled;
-        PaintModeModified();
-    }
-
-
     public void OnLegoSwitched(int itemIndex, bool setItemInUI = false)
     {
         GameManager.Instance.legoSelected = itemIndex;
@@ -263,8 +256,10 @@ public class UIController : MonoBehaviour
     {
         Button colorSwitchButton = uiDocument.rootVisualElement.Q<Button>("ColorSwitchButton");
 
-        if (GameManager.Instance.paintModeEnabled)
+
+        if (GameManager.Instance.playerMode != PlayerMode.Paint)
         {
+            GameManager.Instance.playerMode = PlayerMode.Paint; // à enlever plus tard
             colorSwitchButton.style.borderTopColor = Color.softGreen;
             colorSwitchButton.style.borderBottomColor = Color.softGreen;
             colorSwitchButton.style.borderLeftColor = Color.softGreen;
@@ -273,6 +268,7 @@ public class UIController : MonoBehaviour
         }
         else
         {
+            GameManager.Instance.playerMode = PlayerMode.Place; // à enlever plus tard
             colorSwitchButton.style.borderTopColor = Color.softRed;
             colorSwitchButton.style.borderBottomColor = Color.softRed;
             colorSwitchButton.style.borderLeftColor = Color.softRed;

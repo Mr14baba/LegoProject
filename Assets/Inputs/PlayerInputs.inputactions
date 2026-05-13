@@ -34,7 +34,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "PlacePiece",
+                    "name": "LeftClick",
                     "type": "Button",
                     "id": "8c0adf1f-02ca-4feb-87ef-e892318941cb",
                     "expectedControlType": "",
@@ -43,7 +43,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RemovePiece",
+                    "name": "RightClick",
                     "type": "Button",
                     "id": "1453d9cd-528e-453a-a5fc-3b161bdc5e5d",
                     "expectedControlType": "",
@@ -82,6 +82,15 @@
                     "name": "PaintMode",
                     "type": "Button",
                     "id": "ef94ade3-327c-460f-a716-2a9551a9c284",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectionMode",
+                    "type": "Button",
+                    "id": "d150a4f6-35c1-4f4d-9834-3762cd979f6c",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -239,7 +248,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PlacePiece",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -283,7 +292,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RemovePiece",
+                    "action": "RightClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -350,6 +359,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "PaintMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88a0a34e-67a9-4d5a-a96b-72246d0dcc29",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectionMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

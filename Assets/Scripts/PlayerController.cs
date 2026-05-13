@@ -7,15 +7,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.TerrainTools;
 
 public class PlayerController : MonoBehaviour
 {
     private Camera playerCam;
     private GameObject focusPoint;
-    private Vector2 playerLocation;
-    private Vector2 playerRotation;
-    private Vector3 baseZoom;
-    private Vector3 cameraRotation;
+    private Vector2 playerLocation, playerRotation;
+    private Vector3 baseZoom, cameraRotation;
     private RaycastHit mouseCast;
     private float actualZoomPercentage = 100;
     private Coroutine zoomCoroutine;
@@ -24,7 +23,6 @@ public class PlayerController : MonoBehaviour
     private bool isCorrectSurface;
     private GameObject legoDecoy;
     private int actualLegoClip;
-    private bool isImporting = false;
 
     public PlayerInputs controls;
     
@@ -51,8 +49,8 @@ public class PlayerController : MonoBehaviour
 
         //Add all events for click and input handling
 
-        controls.Player.PlacePiece.started += ctx => PlacePieceStarted();
-        controls.Player.RemovePiece.started += ctx => RemovePieceStarted();
+        controls.Player.LeftClick.started += ctx => LeftCLickStarted();
+        controls.Player.RightClick.started += ctx => RightClickStarted();
         controls.Player.MoveCamera.performed += ctx => MoveCameraPressed(ctx.ReadValue<Vector2>());
         controls.Player.MoveCamera.performed += ctx => playerLocation = ctx.ReadValue<Vector2>();
         controls.Player.MoveCamera.canceled += ctx => playerLocation = Vector2.zero;
@@ -63,7 +61,8 @@ public class PlayerController : MonoBehaviour
         controls.Player.SwitchLego.started += ctx => SwitchLegoPiece(ctx.ReadValue<float>());
         controls.Player.RotateLego.started += ctx => RotateLego();
         controls.Player.SwitchClipBottom.started += ctx => SwitchLegoClip();
-        controls.Player.PaintMode.started += ctx => enablePaintMode();
+        controls.Player.PaintMode.started += ctx => SwitchPaintMode();
+        controls.Player.SelectionMode.started += ctx => GameManager.Instance.playerMode = PlayerMode.Selection;
     }
 
     private void OnEnable()
@@ -129,7 +128,7 @@ public class PlayerController : MonoBehaviour
         legoDecoy = Instantiate(GameManager.Instance.usableLegoList[GameManager.Instance.legoSelected], spawnPos, spawnRot);
         legoDecoy.transform.GetComponent<LegoBlock>().SetHoveringMaterial(GameManager.Instance.addHoveringMaterial);
 
-        while (controls.Player.PlacePiece.IsPressed() && !controls.Player.RemovePiece.IsPressed())
+        while (controls.Player.LeftClick.IsPressed() && !controls.Player.RightClick.IsPressed())
         {
             if (isCorrectSurface)
             {
@@ -187,7 +186,7 @@ public class PlayerController : MonoBehaviour
 
         //Place lego if it is placable, ELSE destroys it
 
-        if (legoDecoy.activeSelf && !controls.Player.RemovePiece.IsPressed())
+        if (legoDecoy.activeSelf && !controls.Player.RightClick.IsPressed())
         {
             if (parentLego != null)
             {
@@ -213,7 +212,7 @@ public class PlayerController : MonoBehaviour
     {
         GameObject currentLegoSelected = null;
         GameObject lastLegoSelected = null;
-        while (controls.Player.RemovePiece.IsPressed() && !controls.Player.PlacePiece.IsPressed())
+        while (controls.Player.RightClick.IsPressed() && !controls.Player.LeftClick.IsPressed())
         {
             //Select method to remove lego based on surface
             switch (mouseCast.collider.gameObject.layer)
@@ -254,7 +253,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Remove Lego from Lego list and destroy it
-        if (!controls.Player.PlacePiece.IsPressed() && currentLegoSelected != null)
+        if (!controls.Player.LeftClick.IsPressed() && currentLegoSelected != null)
         {
             for(int i = 0; i < currentLegoSelected.transform.childCount; i++)
             {
@@ -271,27 +270,41 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator PlaceImportation(Dictionary<GameObject, Vector3> objToMove)
     {
-        isImporting = true;
-        while (isImporting)
+        bool isValid = true;
+        GameManager.Instance.playerMode = PlayerMode.Import;
+        while (isValid && !controls.Player.LeftClick.IsPressed())
         {
             foreach(GameObject obj in objToMove.Keys)
             {
                 obj.transform.position = objToMove[obj] + RoundVector3AwayFromZero(mouseCast.point, ignoreY:true);
+            }        
 
-            }
+            isValid = !controls.Player.RightClick.IsPressed() && GameManager.Instance.playerMode == PlayerMode.Import;
 
             yield return null;
         }
 
-        foreach(GameObject obj in objToMove.Keys)
+        if (isValid)
         {
-            obj.GetComponent<LegoBlock>().ResetHoveringMaterial();
-            obj.GetComponent<Collider>().enabled = true;
-            for(int i = 0; i < obj.transform.childCount; i++)
+            foreach(GameObject obj in objToMove.Keys)
             {
-                obj.transform.GetChild(i).GetComponent<Collider>().enabled = true;
+                obj.GetComponent<LegoBlock>().ResetHoveringMaterial();
+                obj.GetComponent<Collider>().enabled = true;
+                for(int i = 0; i < obj.transform.childCount; i++)
+                {
+                    obj.transform.GetChild(i).GetComponent<Collider>().enabled = true;
+                }
             }
         }
+        else
+        {
+            foreach(GameObject obj in objToMove.Keys)
+            {
+                Destroy(obj);
+            }
+        }
+
+        GameManager.Instance.playerMode = PlayerMode.Place; // mode du pointeur à la fin de l'import
     }
 
     private void MoveCameraPressed(Vector2 coordinates)
@@ -304,25 +317,49 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("rotate coordinates = " + coordinates);
     }
 
-    private void PlacePieceStarted()
+    private void LeftCLickStarted()
     {
-        if (GameManager.Instance.paintModeEnabled)
+        switch (GameManager.Instance.playerMode)
         {
-            changeLegoColor();
-        }
-        else if (isImporting)
-        {
-            isImporting = false;
-        }
-        else
-        {
+            case PlayerMode.Place:
             StartCoroutine(PlacePieceCoroutine());
+            break;
+
+            case PlayerMode.Paint:
+            changeLegoColor();
+            break;
+
+            case PlayerMode.Selection:
+            break;
+
+            case PlayerMode.Import:
+            break;
+
+            default:
+            break;
         }
     }
 
-    private void RemovePieceStarted()
+    private void RightClickStarted()
     {
-        StartCoroutine(RemovePieceCoroutine());
+        switch (GameManager.Instance.playerMode)
+        {
+            case PlayerMode.Place:
+            StartCoroutine(RemovePieceCoroutine());
+            break;
+
+            case PlayerMode.Paint:
+            break;
+
+            case PlayerMode.Selection:
+            break;
+
+            case PlayerMode.Import:
+            break;
+
+            default:
+            break;
+        }
     }
 
     private void ScrollZoomPressed(float ScrollAxis)
@@ -343,7 +380,7 @@ public class PlayerController : MonoBehaviour
 
     private void SwitchLegoPiece(float SwitchAxis)
     {
-        if (!controls.Player.PlacePiece.IsPressed())
+        if (!controls.Player.LeftClick.IsPressed())
         {
             UIController uiController = FindAnyObjectByType<UIController>();
             uiController.OnLegoSwitched(Mathf.Clamp((int)GameManager.Instance.legoSelected + (int)SwitchAxis, 0, GameManager.Instance.usableLegoList.Count() - 1), true);
@@ -376,12 +413,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void enablePaintMode()
+    private void SwitchPaintMode()
     {
-        GameManager.Instance.paintModeEnabled = !GameManager.Instance.paintModeEnabled;
         UIController uiController = FindAnyObjectByType<UIController>();
         uiController.PaintModeModified();
-        //Debug.Log(GameManager.Instance.paintModeEnabled);
     }
 
     private void changeLegoColor()

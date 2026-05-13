@@ -5,8 +5,8 @@ public class GameManager : MonoBehaviour
 {
     [HideInInspector] public Dictionary<LegoEnum, List<GameObject>> dictTypeOfLegoPlaced = new();
     [HideInInspector] public Color colorSelected;
-    [HideInInspector] public bool paintModeEnabled;
     [HideInInspector] public int legoSelected;
+    [HideInInspector] public PlayerMode playerMode = PlayerMode.Place;
     public static GameManager Instance { get; private set;}
     public string actualFileName;
     public Material addHoveringMaterial;
@@ -66,6 +66,27 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log(currentLegoList[^1]);
             currentLegoList.Remove(currentLegoList[^1]);
+        }
+    }
+
+    public void PlayerModeModified(PlayerMode newValue)
+    {
+        switch (newValue)
+        {
+            case PlayerMode.Place:
+            break;
+
+            case PlayerMode.Paint:
+            break;
+
+            case PlayerMode.Selection:
+            break;
+
+            case PlayerMode.Import:
+            break;
+
+            default:
+            break;
         }
     }
 }
